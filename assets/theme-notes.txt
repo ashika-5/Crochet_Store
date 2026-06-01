@@ -1,0 +1,32 @@
+WOOLLY WONDERS — THEME REFERENCE
+=================================
+
+COLORS
+------
+--cream:        #FAF6EF   (page background)
+--warm-white:   #FDF9F4   (card/sidebar background)
+--blush:        #F2D4C2   (soft accent)
+--rose:         #D4856A   (mid accent)
+--terracotta:   #B5603A   (primary brand color)
+--sage:         #8FAF8A   (secondary green)
+--sage-light:   #D6E8D3   (light green tint)
+--sage-dark:    #4A6B46   (dark green)
+--warm-brown:   #6B4C3B   (headings)
+--dark:         #2C1F18   (dark text)
+--mid:          #7A5C4E   (body text)
+--light-text:   #A68E81   (muted text)
+
+FONTS
+-----
+Headings:  Playfair Display (Google Fonts)
+Body:      DM Sans (Google Fonts)
+
+HOW TO CHANGE PRIMARY COLOR
+-----------------------------
+Find --terracotta: #B5603A and replace with your preferred hex.
+Also update --rose: #D4856A for the lighter variant.
+
+HOW TO ADD PRODUCTS
+--------------------
+Option A: Use Admin Panel → Add Product in the browser
+Option B: Edit the DB.products array in index.html <script> section
