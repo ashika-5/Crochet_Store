@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🧶 Woolly Wonders — Handcrafted Crochet Store
 
 A fully functional crochet e-commerce store built with HTML, CSS, and vanilla JavaScript. No frameworks, no dependencies, no server required — just open `index.html` in any browser!
@@ -10,7 +11,7 @@ A fully functional crochet e-commerce store built with HTML, CSS, and vanilla Ja
 2. Open `index.html` in your browser
 3. That's it! The store is fully functional
 
----
+---git push -u origin main --force
 
 ## 📁 Project Structure
 
@@ -69,3 +70,6 @@ To add your own products, use the **Admin → Add Product** panel inside the app
 ## 📄 License
 
 Free to use and modify for personal or commercial projects.
+=======
+# Crochet_Store
+>>>>>>> 7dbec27d7d3a13dd661befcb8f70ec13e14099ba
