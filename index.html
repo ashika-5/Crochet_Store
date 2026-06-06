@@ -3,1342 +3,146 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wooly Wonders</title>
+    <title>Woolly Wonders — Handcrafted Crochet</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --cream: #faf6ef;
-        --warm-white: #fdf9f4;
-        --blush: #f2d4c2;
-        --rose: #d4856a;
-        --terracotta: #b5603a;
-        --sage: #8faf8a;
-        --sage-light: #d6e8d3;
-        --sage-dark: #4a6b46;
-        --warm-brown: #6b4c3b;
-        --dark: #2c1f18;
-        --mid: #7a5c4e;
-        --light-text: #a68e81;
-        --border: rgba(107, 76, 59, 0.15);
-        --card-bg: #fffcf8;
-        --shadow: 0 4px 24px rgba(44, 31, 24, 0.08);
-        --shadow-hover: 0 12px 40px rgba(44, 31, 24, 0.15);
-        --radius: 16px;
-        --radius-sm: 8px;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "DM Sans", sans-serif;
-        background: var(--cream);
-        color: var(--dark);
-        min-height: 100vh;
-        overflow-x: hidden;
-      }
-
-      /* ─── TYPOGRAPHY ─── */
-      h1,
-      h2,
-      h3 {
-        font-family: "Playfair Display", serif;
-      }
-
-      /* ─── NAV ─── */
-      nav {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: rgba(250, 246, 239, 0.92);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--border);
-        padding: 0 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 68px;
-      }
-      .nav-logo {
-        font-family: "Playfair Display", serif;
-        font-size: 1.5rem;
-        color: var(--warm-brown);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-      }
-      .nav-logo span {
-        font-size: 1.8rem;
-      }
-      .nav-links {
-        display: flex;
-        gap: 2rem;
-        list-style: none;
-      }
-      .nav-links a {
-        text-decoration: none;
-        color: var(--mid);
-        font-size: 0.9rem;
-        font-weight: 500;
-        transition: color 0.2s;
-        cursor: pointer;
-      }
-      .nav-links a:hover {
-        color: var(--terracotta);
-      }
-      .nav-actions {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-      .btn-cart {
-        background: var(--terracotta);
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        padding: 0.5rem 1.2rem;
-        font-size: 0.85rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        transition: all 0.2s;
-        font-family: "DM Sans", sans-serif;
-        font-weight: 500;
-      }
-      .btn-cart:hover {
-        background: var(--warm-brown);
-        transform: scale(1.03);
-      }
-      .cart-count {
-        background: var(--blush);
-        color: var(--terracotta);
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        font-weight: 700;
-      }
-      .btn-admin {
-        background: transparent;
-        border: 1px solid var(--border);
-        border-radius: 50px;
-        padding: 0.45rem 1rem;
-        font-size: 0.8rem;
-        color: var(--mid);
-        cursor: pointer;
-        transition: all 0.2s;
-        font-family: "DM Sans", sans-serif;
-      }
-      .btn-admin:hover {
-        background: var(--blush);
-        border-color: var(--rose);
-        color: var(--warm-brown);
-      }
-
-      /* ─── PAGES ─── */
-      .page {
-        display: none;
-      }
-      .page.active {
-        display: block;
-      }
-
-      /* ─── HERO ─── */
-      .hero {
-        padding: 5rem 2rem 4rem;
-        max-width: 1100px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4rem;
-        align-items: center;
-      }
-      .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: var(--sage-light);
-        color: var(--sage-dark);
-        border-radius: 50px;
-        padding: 0.35rem 1rem;
-        font-size: 0.8rem;
-        font-weight: 500;
-        margin-bottom: 1.5rem;
-      }
-      .hero h1 {
-        font-size: 3.2rem;
-        line-height: 1.15;
-        color: var(--warm-brown);
-        margin-bottom: 1.2rem;
-      }
-      .hero h1 em {
-        color: var(--terracotta);
-        font-style: italic;
-      }
-      .hero p {
-        color: var(--mid);
-        line-height: 1.7;
-        font-size: 1rem;
-        margin-bottom: 2rem;
-        font-weight: 300;
-      }
-      .hero-btns {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-      }
-      .btn-primary {
-        background: var(--terracotta);
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        padding: 0.8rem 2rem;
-        font-size: 0.95rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.25s;
-        font-family: "DM Sans", sans-serif;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-      }
-      .btn-primary:hover {
-        background: var(--warm-brown);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(181, 96, 58, 0.35);
-      }
-      .btn-secondary {
-        background: transparent;
-        color: var(--warm-brown);
-        border: 1.5px solid var(--warm-brown);
-        border-radius: 50px;
-        padding: 0.8rem 2rem;
-        font-size: 0.95rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.25s;
-        font-family: "DM Sans", sans-serif;
-      }
-      .btn-secondary:hover {
-        background: var(--blush);
-      }
-      .hero-visual {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .hero-circle {
-        width: 380px;
-        height: 380px;
-        border-radius: 50%;
-        background: linear-gradient(
-          135deg,
-          var(--blush) 0%,
-          var(--sage-light) 100%
-        );
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-size: 8rem;
-        box-shadow: var(--shadow-hover);
-        position: relative;
-        overflow: hidden;
-      }
-      .hero-circle::before {
-        content: "";
-        position: absolute;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-          circle at 30% 30%,
-          rgba(255, 255, 255, 0.4) 0%,
-          transparent 60%
-        );
-      }
-      .hero-stats {
-        display: flex;
-        gap: 2rem;
-        margin-top: 2rem;
-      }
-      .stat {
-        text-align: center;
-      }
-      .stat strong {
-        display: block;
-        font-size: 1.6rem;
-        color: var(--terracotta);
-        font-family: "Playfair Display", serif;
-      }
-      .stat span {
-        font-size: 0.8rem;
-        color: var(--light-text);
-      }
-
-      /* ─── SECTION ─── */
-      .section {
-        padding: 4rem 2rem;
-        max-width: 1100px;
-        margin: 0 auto;
-      }
-      .section-header {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        margin-bottom: 2.5rem;
-      }
-      .section-header h2 {
-        font-size: 2rem;
-        color: var(--warm-brown);
-      }
-      .section-header p {
-        color: var(--light-text);
-        font-size: 0.9rem;
-        margin-top: 0.3rem;
-      }
-      .link-btn {
-        color: var(--terracotta);
-        text-decoration: none;
-        font-size: 0.9rem;
-        font-weight: 500;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        transition: gap 0.2s;
-      }
-      .link-btn:hover {
-        gap: 8px;
-      }
-
-      /* ─── FILTERS ─── */
-      .filters {
-        display: flex;
-        gap: 0.6rem;
-        flex-wrap: wrap;
-        margin-bottom: 2rem;
-      }
-      .filter-btn {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 50px;
-        padding: 0.4rem 1.1rem;
-        font-size: 0.85rem;
-        color: var(--mid);
-        cursor: pointer;
-        transition: all 0.2s;
-        font-family: "DM Sans", sans-serif;
-      }
-      .filter-btn:hover,
-      .filter-btn.active {
-        background: var(--terracotta);
-        color: #fff;
-        border-color: var(--terracotta);
-      }
-
-      /* ─── PRODUCT GRID ─── */
-      .product-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 1.5rem;
-      }
-      .product-card {
-        background: var(--card-bg);
-        border-radius: var(--radius);
-        border: 1px solid var(--border);
-        overflow: hidden;
-        transition: all 0.3s;
-        cursor: pointer;
-        position: relative;
-      }
-      .product-card:hover {
-        transform: translateY(-6px);
-        box-shadow: var(--shadow-hover);
-        border-color: var(--rose);
-      }
-      .product-img {
-        height: 220px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 5rem;
-        position: relative;
-        overflow: hidden;
-      }
-      .product-badge {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        background: var(--sage);
-        color: #fff;
-        border-radius: 50px;
-        padding: 0.2rem 0.7rem;
-        font-size: 0.72rem;
-        font-weight: 500;
-      }
-      .product-badge.new {
-        background: var(--rose);
-      }
-      .product-badge.sale {
-        background: var(--terracotta);
-      }
-      .product-info {
-        padding: 1.2rem;
-      }
-      .product-cat {
-        font-size: 0.75rem;
-        color: var(--light-text);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        margin-bottom: 0.3rem;
-      }
-      .product-name {
-        font-family: "Playfair Display", serif;
-        font-size: 1.1rem;
-        color: var(--warm-brown);
-        margin-bottom: 0.5rem;
-      }
-      .product-price-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-top: 0.8rem;
-      }
-      .product-price {
-        font-size: 1.15rem;
-        font-weight: 500;
-        color: var(--terracotta);
-      }
-      .product-price .old {
-        text-decoration: line-through;
-        color: var(--light-text);
-        font-size: 0.85rem;
-        margin-left: 6px;
-      }
-      .btn-add {
-        background: var(--terracotta);
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        padding: 0.45rem 1rem;
-        font-size: 0.82rem;
-        cursor: pointer;
-        font-family: "DM Sans", sans-serif;
-        font-weight: 500;
-        transition: all 0.2s;
-      }
-      .btn-add:hover {
-        background: var(--warm-brown);
-      }
-      .stars {
-        color: var(--rose);
-        font-size: 0.8rem;
-        margin-bottom: 0.2rem;
-      }
-
-      /* ─── FEATURED BANNER ─── */
-      .featured-banner {
-        margin: 0 2rem 4rem;
-        background: linear-gradient(
-          135deg,
-          var(--warm-brown) 0%,
-          var(--terracotta) 100%
-        );
-        border-radius: 24px;
-        padding: 3rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 2rem;
-        color: #fff;
-        max-width: 1100px;
-        margin-left: auto;
-        margin-right: auto;
-        position: relative;
-        overflow: hidden;
-      }
-      .featured-banner::before {
-        content: "🧶";
-        font-size: 12rem;
-        position: absolute;
-        right: -2rem;
-        top: -2rem;
-        opacity: 0.15;
-        line-height: 1;
-      }
-      .featured-banner h2 {
-        font-size: 2rem;
-        margin-bottom: 0.8rem;
-      }
-      .featured-banner p {
-        opacity: 0.85;
-        line-height: 1.6;
-        font-weight: 300;
-      }
-      .btn-white {
-        background: #fff;
-        color: var(--terracotta);
-        border: none;
-        border-radius: 50px;
-        padding: 0.8rem 2rem;
-        font-size: 0.9rem;
-        font-weight: 500;
-        cursor: pointer;
-        font-family: "DM Sans", sans-serif;
-        transition: all 0.2s;
-        margin-top: 1.5rem;
-        display: inline-block;
-      }
-      .btn-white:hover {
-        transform: scale(1.05);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      }
-
-      /* ─── CART SIDEBAR ─── */
-      .cart-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(44, 31, 24, 0.4);
-        z-index: 200;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s;
-      }
-      .cart-overlay.open {
-        opacity: 1;
-        pointer-events: all;
-      }
-      .cart-sidebar {
-        position: fixed;
-        top: 0;
-        right: -420px;
-        width: 420px;
-        height: 100vh;
-        background: var(--warm-white);
-        z-index: 201;
-        transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        flex-direction: column;
-        box-shadow: -8px 0 40px rgba(44, 31, 24, 0.15);
-      }
-      .cart-sidebar.open {
-        right: 0;
-      }
-      .cart-header {
-        padding: 1.5rem;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .cart-header h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 1.3rem;
-        color: var(--warm-brown);
-      }
-      .btn-close {
-        background: var(--blush);
-        border: none;
-        border-radius: 50%;
-        width: 36px;
-        height: 36px;
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--terracotta);
-        transition: all 0.2s;
-      }
-      .btn-close:hover {
-        background: var(--rose);
-        color: #fff;
-      }
-      .cart-items {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1rem 1.5rem;
-      }
-      .cart-item {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--border);
-      }
-      .cart-item-img {
-        font-size: 2.5rem;
-        width: 60px;
-        text-align: center;
-        flex-shrink: 0;
-      }
-      .cart-item-info {
-        flex: 1;
-      }
-      .cart-item-name {
-        font-weight: 500;
-        font-size: 0.9rem;
-        color: var(--warm-brown);
-      }
-      .cart-item-price {
-        color: var(--terracotta);
-        font-size: 0.9rem;
-        margin-top: 0.2rem;
-      }
-      .qty-control {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 0.5rem;
-      }
-      .qty-btn {
-        background: var(--blush);
-        border: none;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        color: var(--terracotta);
-        font-weight: 700;
-        transition: all 0.2s;
-      }
-      .qty-btn:hover {
-        background: var(--rose);
-        color: #fff;
-      }
-      .qty-num {
-        font-size: 0.9rem;
-        font-weight: 500;
-        min-width: 20px;
-        text-align: center;
-      }
-      .btn-remove {
-        background: none;
-        border: none;
-        cursor: pointer;
-        color: var(--light-text);
-        font-size: 1rem;
-        padding: 4px;
-        transition: color 0.2s;
-      }
-      .btn-remove:hover {
-        color: #c0392b;
-      }
-      .cart-footer {
-        padding: 1.5rem;
-        border-top: 1px solid var(--border);
-      }
-      .cart-summary {
-        margin-bottom: 1rem;
-      }
-      .cart-row {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.9rem;
-        margin-bottom: 0.4rem;
-        color: var(--mid);
-      }
-      .cart-row.total {
-        font-weight: 600;
-        font-size: 1.1rem;
-        color: var(--dark);
-        border-top: 1px solid var(--border);
-        padding-top: 0.6rem;
-        margin-top: 0.6rem;
-      }
-      .btn-checkout {
-        width: 100%;
-        background: var(--terracotta);
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        padding: 1rem;
-        font-size: 1rem;
-        font-weight: 500;
-        cursor: pointer;
-        font-family: "DM Sans", sans-serif;
-        transition: all 0.25s;
-      }
-      .btn-checkout:hover {
-        background: var(--warm-brown);
-        transform: scale(1.02);
-      }
-      .empty-cart {
-        text-align: center;
-        padding: 3rem 1rem;
-      }
-      .empty-cart div {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-      }
-      .empty-cart p {
-        color: var(--light-text);
-      }
-
-      /* ─── PRODUCT DETAIL ─── */
-      .product-detail {
-        max-width: 1000px;
-        margin: 2rem auto;
-        padding: 0 2rem;
-      }
-      .detail-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4rem;
-        align-items: start;
-      }
-      .detail-img-wrap {
-        background: var(--card-bg);
-        border-radius: 24px;
-        border: 1px solid var(--border);
-        padding: 3rem;
-        text-align: center;
-        font-size: 10rem;
-        line-height: 1;
-      }
-      .detail-category {
-        color: var(--sage-dark);
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-      }
-      .detail-name {
-        font-size: 2.2rem;
-        color: var(--warm-brown);
-        line-height: 1.2;
-        margin-bottom: 0.8rem;
-      }
-      .detail-price {
-        font-size: 1.8rem;
-        color: var(--terracotta);
-        font-weight: 500;
-        margin-bottom: 1rem;
-      }
-      .detail-desc {
-        color: var(--mid);
-        line-height: 1.7;
-        font-weight: 300;
-        margin-bottom: 1.5rem;
-      }
-      .detail-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 0.6rem;
-        margin-bottom: 1.5rem;
-      }
-      .meta-row {
-        display: flex;
-        gap: 0.5rem;
-        font-size: 0.88rem;
-      }
-      .meta-label {
-        color: var(--light-text);
-        min-width: 100px;
-      }
-      .meta-val {
-        color: var(--warm-brown);
-        font-weight: 500;
-      }
-      .color-dots {
-        display: flex;
-        gap: 6px;
-      }
-      .color-dot {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        border: 2px solid transparent;
-        cursor: pointer;
-        transition: border-color 0.2s;
-      }
-      .color-dot.selected {
-        border-color: var(--dark);
-      }
-      .qty-row {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-      }
-      .qty-large {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 50px;
-        padding: 0.4rem 1rem;
-      }
-      .qty-large button {
-        background: none;
-        border: none;
-        font-size: 1.2rem;
-        cursor: pointer;
-        color: var(--terracotta);
-        font-weight: 700;
-        width: 28px;
-        height: 28px;
-      }
-      .qty-large span {
-        font-weight: 500;
-        min-width: 24px;
-        text-align: center;
-      }
-      .btn-detail-add {
-        flex: 1;
-        background: var(--terracotta);
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        padding: 0.8rem;
-        font-size: 0.95rem;
-        font-weight: 500;
-        cursor: pointer;
-        font-family: "DM Sans", sans-serif;
-        transition: all 0.25s;
-      }
-      .btn-detail-add:hover {
-        background: var(--warm-brown);
-      }
-      .breadcrumb {
-        font-size: 0.82rem;
-        color: var(--light-text);
-        margin-bottom: 2rem;
-        cursor: pointer;
-      }
-      .breadcrumb span {
-        color: var(--terracotta);
-      }
-
-      /* ─── CHECKOUT ─── */
-      .checkout-page {
-        max-width: 900px;
-        margin: 2rem auto;
-        padding: 0 2rem;
-      }
-      .checkout-grid {
-        display: grid;
-        grid-template-columns: 1fr 380px;
-        gap: 2rem;
-        align-items: start;
-      }
-      .checkout-form-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 2rem;
-      }
-      .checkout-form-card h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 1.2rem;
-        color: var(--warm-brown);
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.8rem;
-        border-bottom: 1px solid var(--border);
-      }
-      .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin-bottom: 1rem;
-      }
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.4rem;
-        margin-bottom: 1rem;
-      }
-      .form-group.half {
-        flex: 1;
-      }
-      label {
-        font-size: 0.82rem;
-        font-weight: 500;
-        color: var(--mid);
-      }
-      input,
-      select,
-      textarea {
-        background: var(--cream);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 0.7rem 0.9rem;
-        font-size: 0.9rem;
-        font-family: "DM Sans", sans-serif;
-        color: var(--dark);
-        width: 100%;
-        transition: border-color 0.2s;
-        outline: none;
-      }
-      input:focus,
-      select:focus,
-      textarea:focus {
-        border-color: var(--rose);
-        box-shadow: 0 0 0 3px rgba(212, 133, 106, 0.15);
-      }
-      .order-summary-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1.5rem;
-        position: sticky;
-        top: 90px;
-      }
-      .order-summary-card h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 1.1rem;
-        color: var(--warm-brown);
-        margin-bottom: 1rem;
-      }
-      .summary-item {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.88rem;
-        color: var(--mid);
-        padding: 0.4rem 0;
-      }
-      .summary-divider {
-        border: none;
-        border-top: 1px solid var(--border);
-        margin: 0.8rem 0;
-      }
-      .summary-total {
-        display: flex;
-        justify-content: space-between;
-        font-weight: 600;
-        font-size: 1rem;
-        color: var(--dark);
-      }
-
-      /* ─── SUCCESS ─── */
-      .success-page {
-        text-align: center;
-        padding: 5rem 2rem;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-      .success-icon {
-        font-size: 5rem;
-        margin-bottom: 1.5rem;
-      }
-      .success-page h2 {
-        font-size: 2rem;
-        color: var(--warm-brown);
-        margin-bottom: 1rem;
-      }
-      .success-page p {
-        color: var(--mid);
-        line-height: 1.7;
-        margin-bottom: 2rem;
-      }
-      .order-num {
-        background: var(--sage-light);
-        color: var(--sage-dark);
-        border-radius: var(--radius-sm);
-        padding: 0.5rem 1rem;
-        display: inline-block;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-      }
-
-      /* ─── ADMIN ─── */
-      .admin-page {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 2rem;
-      }
-      .admin-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 2rem;
-      }
-      .admin-header h2 {
-        font-size: 1.8rem;
-        color: var(--warm-brown);
-      }
-      .admin-tabs {
-        display: flex;
-        gap: 0.5rem;
-        margin-bottom: 2rem;
-      }
-      .tab-btn {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius-sm);
-        padding: 0.55rem 1.2rem;
-        font-size: 0.88rem;
-        color: var(--mid);
-        cursor: pointer;
-        font-family: "DM Sans", sans-serif;
-        transition: all 0.2s;
-      }
-      .tab-btn.active {
-        background: var(--terracotta);
-        color: #fff;
-        border-color: var(--terracotta);
-      }
-      .admin-stats {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
-        margin-bottom: 2rem;
-      }
-      .admin-stat-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1.2rem;
-      }
-      .admin-stat-icon {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-      }
-      .admin-stat-val {
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: var(--terracotta);
-        font-family: "Playfair Display", serif;
-      }
-      .admin-stat-label {
-        font-size: 0.8rem;
-        color: var(--light-text);
-        margin-top: 0.2rem;
-      }
-      .admin-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      .admin-table th {
-        text-align: left;
-        font-size: 0.78rem;
-        font-weight: 500;
-        color: var(--light-text);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        padding: 0.8rem 1rem;
-        background: var(--cream);
-        border-bottom: 1px solid var(--border);
-      }
-      .admin-table td {
-        padding: 0.9rem 1rem;
-        font-size: 0.9rem;
-        border-bottom: 1px solid var(--border);
-        color: var(--dark);
-      }
-      .admin-table tr:hover td {
-        background: var(--cream);
-      }
-      .status-badge {
-        border-radius: 50px;
-        padding: 0.2rem 0.7rem;
-        font-size: 0.75rem;
-        font-weight: 500;
-      }
-      .status-pending {
-        background: #fef3c7;
-        color: #92400e;
-      }
-      .status-shipped {
-        background: var(--sage-light);
-        color: var(--sage-dark);
-      }
-      .status-delivered {
-        background: #d1fae5;
-        color: #065f46;
-      }
-      .admin-panel {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        overflow: hidden;
-      }
-      .product-form {
-        padding: 2rem;
-      }
-      .product-form h4 {
-        font-family: "Playfair Display", serif;
-        font-size: 1.1rem;
-        color: var(--warm-brown);
-        margin-bottom: 1.5rem;
-      }
-      .btn-success {
-        background: var(--sage);
-        color: #fff;
-        border: none;
-        border-radius: 50px;
-        padding: 0.7rem 1.5rem;
-        font-size: 0.9rem;
-        cursor: pointer;
-        font-family: "DM Sans", sans-serif;
-        font-weight: 500;
-        transition: all 0.2s;
-      }
-      .btn-success:hover {
-        background: var(--sage-dark);
-      }
-      .btn-danger {
-        background: #fee2e2;
-        color: #dc2626;
-        border: none;
-        border-radius: 50px;
-        padding: 0.4rem 0.8rem;
-        font-size: 0.8rem;
-        cursor: pointer;
-        font-family: "DM Sans", sans-serif;
-        transition: all 0.2s;
-      }
-      .btn-danger:hover {
-        background: #dc2626;
-        color: #fff;
-      }
-
-      /* ─── TOAST ─── */
-      .toast-wrap {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        z-index: 500;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .toast {
-        background: var(--warm-brown);
-        color: #fff;
-        border-radius: var(--radius-sm);
-        padding: 0.8rem 1.2rem;
-        font-size: 0.9rem;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        box-shadow: 0 8px 24px rgba(44, 31, 24, 0.25);
-        animation: slideIn 0.3s ease;
-        max-width: 300px;
-      }
-      @keyframes slideIn {
-        from {
-          transform: translateX(120%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-      @keyframes fadeOut {
-        to {
-          transform: translateX(120%);
-          opacity: 0;
-        }
-      }
-      .toast.hiding {
-        animation: fadeOut 0.3s ease forwards;
-      }
-
-      /* ─── FOOTER ─── */
-      footer {
-        background: var(--dark);
-        color: rgba(255, 255, 255, 0.7);
-        padding: 3rem 2rem;
-        margin-top: 4rem;
-      }
-      .footer-inner {
-        max-width: 1100px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
-        gap: 2rem;
-      }
-      .footer-brand {
-        font-family: "Playfair Display", serif;
-        font-size: 1.3rem;
-        color: #fff;
-        margin-bottom: 0.8rem;
-      }
-      .footer-desc {
-        font-size: 0.85rem;
-        line-height: 1.6;
-        font-weight: 300;
-      }
-      .footer-col h4 {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: #fff;
-        margin-bottom: 1rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-      .footer-col ul {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      .footer-col ul li {
-        font-size: 0.85rem;
-        cursor: pointer;
-        transition: color 0.2s;
-      }
-      .footer-col ul li:hover {
-        color: var(--blush);
-      }
-      .footer-bottom {
-        max-width: 1100px;
-        margin: 2rem auto 0;
-        padding-top: 1.5rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.8rem;
-      }
-      .made-with {
-        color: var(--blush);
-      }
-
-      /* ─── MODAL ─── */
-      .modal-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(44, 31, 24, 0.5);
-        z-index: 300;
-        display: none;
-        align-items: center;
-        justify-content: center;
-      }
-      .modal-overlay.open {
-        display: flex;
-      }
-      .modal {
-        background: var(--warm-white);
-        border-radius: 24px;
-        padding: 2rem;
-        max-width: 500px;
-        width: 90%;
-      }
-      .modal h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 1.3rem;
-        color: var(--warm-brown);
-        margin-bottom: 0.5rem;
-      }
-      .modal p {
-        color: var(--mid);
-        font-size: 0.9rem;
-        margin-bottom: 1.5rem;
-      }
-      .modal-btns {
-        display: flex;
-        gap: 1rem;
-        justify-content: flex-end;
-      }
-
-      /* ─── SCROLL REVEAL ─── */
-      .reveal {
-        opacity: 0;
-        transform: translateY(20px);
-        transition:
-          opacity 0.5s,
-          transform 0.5s;
-      }
-      .reveal.visible {
-        opacity: 1;
-        transform: none;
-      }
-
-      /* ─── SEARCH ─── */
-      .search-bar {
-        position: relative;
-        margin-bottom: 1.5rem;
-      }
-      .search-bar input {
-        padding-left: 2.5rem;
-      }
-      .search-icon {
-        position: absolute;
-        left: 0.8rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: var(--light-text);
-        font-size: 1rem;
-        pointer-events: none;
-      }
-
-      @media (max-width: 768px) {
-        .hero {
-          grid-template-columns: 1fr;
-          text-align: center;
-        }
-        .hero-visual {
-          display: none;
-        }
-        .hero h1 {
-          font-size: 2.2rem;
-        }
-        .checkout-grid {
-          grid-template-columns: 1fr;
-        }
-        .detail-grid {
-          grid-template-columns: 1fr;
-        }
-        .admin-stats {
-          grid-template-columns: 1fr 1fr;
-        }
-        .footer-inner {
-          grid-template-columns: 1fr 1fr;
-        }
-        .cart-sidebar {
-          width: 100%;
-          right: -100%;
-        }
-        nav .nav-links {
-          display: none;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- TOAST -->
+    <div class="toast-wrap" id="toastWrap"></div>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="authModal">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+        <h3>Welcome Back</h3>
+        <p class="modal-sub">Sign in to your Woolly Wonders account</p>
+        <div class="tab-switch">
+          <button class="tab-sw-btn active" onclick="authTab('login', this)">
+            Sign In
+          </button>
+          <button class="tab-sw-btn" onclick="authTab('register', this)">
+            Create Account
+          </button>
+        </div>
+        <div id="authError" class="error-msg"></div>
+        <div id="authSuccess" class="success-msg"></div>
+        <!-- LOGIN -->
+        <div id="loginForm">
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="jane@example.com"
+            />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPass" placeholder="••••••••" />
+          </div>
+          <button class="btn-primary btn-full" onclick="doLogin()">
+            Sign In →
+          </button>
+        </div>
+        <!-- REGISTER -->
+        <div id="registerForm" class="hidden">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" id="regFirst" placeholder="Jane" />
+            </div>
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" id="regLast" placeholder="Doe" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="regEmail" placeholder="jane@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              id="regPass"
+              placeholder="At least 6 characters"
+            />
+          </div>
+          <button class="btn-primary btn-full" onclick="doRegister()">
+            Create Account →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div class="modal-overlay" id="adminLoginModal">
+      <div class="modal">
+        <button class="modal-close" onclick="closeModal('adminLoginModal')">
+          ✕
+        </button>
+        <div class="modal-admin-icon">
+          <div class="icon">🔐</div>
+          <h3>Admin Access</h3>
+          <p class="modal-sub">Enter admin credentials to continue</p>
+        </div>
+        <div id="adminLoginError" class="error-msg"></div>
+        <div class="form-group">
+          <label>Admin Email</label>
+          <input type="email" id="adminEmail" placeholder="admin@woolly.com" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="adminPass" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary btn-full" onclick="doAdminLogin()">
+          Access Dashboard →
+        </button>
+        <p class="admin-demo-hint">Demo: admin@woolly.com / admin123</p>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS PANEL -->
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-panel-header">
+        <h4>🔔 Notifications</h4>
+        <button class="notif-clear" onclick="clearNotifs()">
+          Mark all read
+        </button>
+      </div>
+      <div class="notif-list" id="notifList"></div>
+    </div>
+
     <!-- NAV -->
-    <nav>
+    <nav id="mainNav">
       <div class="nav-logo" onclick="showPage('home')">
         <span>🧶</span> Woolly Wonders
       </div>
       <ul class="nav-links">
         <li><a onclick="showPage('shop')">Shop</a></li>
         <li><a onclick="scrollToSection('featured')">Collections</a></li>
-        <li><a onclick="showPage('home')">About</a></li>
-        <li><a>Custom Orders</a></li>
+        <li><a onclick="myOrdersPage()">My Orders</a></li>
       </ul>
       <div class="nav-actions">
-        <button class="btn-admin" onclick="showPage('admin')">⚙️ Admin</button>
+        <button class="notif-btn" onclick="toggleNotifPanel()" id="notifBtn">
+          🔔
+          <span class="notif-dot" id="notifDot"></span>
+        </button>
+        <div id="navUserArea"></div>
         <button class="btn-cart" onclick="toggleCart()">
-          🛒 Cart <span class="cart-count" id="cartCount">0</span>
+          🛒 Cart
+          <span class="cart-count" id="cartCount">0</span>
         </button>
       </div>
     </nav>
 
-    <!-- TOAST CONTAINER -->
-    <div class="toast-wrap" id="toastWrap"></div>
-
-    <!-- CART SIDEBAR -->
+    <!-- CART OVERLAY & SIDEBAR -->
     <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
     <div class="cart-sidebar" id="cartSidebar">
       <div class="cart-header">
@@ -1349,11 +153,11 @@
       <div class="cart-footer" id="cartFooter"></div>
     </div>
 
-    <!-- ═══════════════════════════════════ HOME PAGE -->
+    <!-- ══════════════════════ HOME PAGE ══════════════════════ -->
     <div class="page active" id="page-home">
       <!-- HERO -->
       <section class="hero">
-        <div>
+        <div class="hero-content">
           <div class="hero-badge">🌿 100% Handcrafted with Love</div>
           <h1>Where Yarn Becomes <em>Art</em></h1>
           <p>
@@ -1370,11 +174,18 @@
             </button>
           </div>
           <div class="hero-stats">
-            <div class="stat"><strong>500+</strong><span>Products</span></div>
             <div class="stat">
-              <strong>12k+</strong><span>Happy Crafters</span>
+              <strong>500+</strong>
+              <span>Products</span>
             </div>
-            <div class="stat"><strong>4.9★</strong><span>Avg Rating</span></div>
+            <div class="stat">
+              <strong>12k+</strong>
+              <span>Happy Crafters</span>
+            </div>
+            <div class="stat">
+              <strong>4.9★</strong>
+              <span>Avg Rating</span>
+            </div>
           </div>
         </div>
         <div class="hero-visual">
@@ -1382,38 +193,34 @@
         </div>
       </section>
 
-      <!-- FEATURED PRODUCTS -->
+      <!-- BESTSELLERS -->
       <section class="section reveal" id="featured">
         <div class="section-header">
           <div>
             <h2>Bestsellers</h2>
             <p>Loved by thousands of crochet enthusiasts</p>
           </div>
-          <a class="link-btn" onclick="showPage('shop')">View all →</a>
+          <button class="link-btn" onclick="showPage('shop')">
+            View all →
+          </button>
         </div>
         <div class="filters">
-          <button
-            class="filter-btn active"
-            onclick="filterProducts('all', this)"
-          >
+          <button class="filter-btn active" onclick="filterHome('all', this)">
             All
           </button>
-          <button class="filter-btn" onclick="filterProducts('home', this)">
+          <button class="filter-btn" onclick="filterHome('home', this)">
             🏠 Home
           </button>
-          <button class="filter-btn" onclick="filterProducts('wearable', this)">
+          <button class="filter-btn" onclick="filterHome('wearable', this)">
             👗 Wearable
           </button>
-          <button class="filter-btn" onclick="filterProducts('baby', this)">
+          <button class="filter-btn" onclick="filterHome('baby', this)">
             🍼 Baby
           </button>
-          <button
-            class="filter-btn"
-            onclick="filterProducts('accessories', this)"
-          >
+          <button class="filter-btn" onclick="filterHome('accessories', this)">
             👜 Accessories
           </button>
-          <button class="filter-btn" onclick="filterProducts('seasonal', this)">
+          <button class="filter-btn" onclick="filterHome('seasonal', this)">
             🍂 Seasonal
           </button>
         </div>
@@ -1422,16 +229,15 @@
 
       <!-- FEATURED BANNER -->
       <div class="featured-banner reveal">
-        <div>
+        <div class="featured-banner-text">
           <h2>Custom Orders Welcome</h2>
           <p>
             Want something truly unique? We create custom crochet pieces
-            tailored to your colours, size, and style. Perfect for gifts,
-            nurseries, and special occasions.
+            tailored to your colours, size, and style.
           </p>
           <button class="btn-white">Request Custom Order</button>
         </div>
-        <div style="font-size: 6rem; flex-shrink: 0">✂️</div>
+        <div class="featured-banner-emoji">✂️</div>
       </div>
 
       <!-- NEW ARRIVALS -->
@@ -1446,28 +252,18 @@
       </section>
     </div>
 
-    <!-- ═══════════════════════════════════ SHOP PAGE -->
+    <!-- ══════════════════════ SHOP PAGE ══════════════════════ -->
     <div class="page" id="page-shop">
       <section class="section">
-        <h2
-          style="
-            font-size: 2rem;
-            color: var(--warm-brown);
-            margin-bottom: 0.3rem;
-          "
-        >
-          All Products
-        </h2>
-        <p style="color: var(--light-text); margin-bottom: 1.5rem">
-          Handcrafted with care, each piece is unique
-        </p>
+        <h2 class="section-title">All Products</h2>
+        <p class="section-sub">Handcrafted with care</p>
         <div class="search-bar">
           <span class="search-icon">🔍</span>
           <input
             type="text"
             id="searchInput"
             placeholder="Search products..."
-            oninput="searchProducts()"
+            oninput="renderShopGrid()"
           />
         </div>
         <div class="filters" id="shopFilters">
@@ -1494,7 +290,7 @@
       </section>
     </div>
 
-    <!-- ═══════════════════════════════════ PRODUCT DETAIL -->
+    <!-- ══════════════════════ PRODUCT DETAIL PAGE ══════════════════════ -->
     <div class="page" id="page-detail">
       <div class="product-detail">
         <div class="breadcrumb" onclick="goBack()">
@@ -1504,157 +300,221 @@
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════ CHECKOUT -->
+    <!-- ══════════════════════ CHECKOUT PAGE ══════════════════════ -->
     <div class="page" id="page-checkout">
       <div class="checkout-page">
-        <h2
-          style="
-            font-size: 2rem;
-            color: var(--warm-brown);
-            margin-bottom: 0.3rem;
-          "
-        >
-          Checkout
-        </h2>
-        <p style="color: var(--light-text); margin-bottom: 2rem">
-          Almost there! Fill in your details below.
-        </p>
+        <h2 class="checkout-title">Checkout</h2>
+        <p class="checkout-sub">Complete your order below</p>
         <div class="checkout-grid">
-          <div>
-            <div class="checkout-form-card" style="margin-bottom: 1rem">
+          <div class="checkout-left">
+            <!-- SHIPPING -->
+            <div class="checkout-card">
               <h3>📦 Shipping Details</h3>
               <div class="form-row">
                 <div class="form-group">
-                  <label>First Name</label
-                  ><input type="text" placeholder="Jane" />
+                  <label>First Name</label>
+                  <input type="text" id="shipFirst" placeholder="Jane" />
                 </div>
                 <div class="form-group">
-                  <label>Last Name</label
-                  ><input type="text" placeholder="Doe" />
+                  <label>Last Name</label>
+                  <input type="text" id="shipLast" placeholder="Doe" />
                 </div>
               </div>
               <div class="form-group">
-                <label>Email</label
-                ><input type="email" placeholder="jane@example.com" />
+                <label>Email</label>
+                <input
+                  type="email"
+                  id="shipEmail"
+                  placeholder="jane@example.com"
+                />
               </div>
               <div class="form-group">
-                <label>Phone</label
-                ><input type="tel" placeholder="+1 (555) 000-0000" />
+                <label>Phone</label>
+                <input
+                  type="tel"
+                  id="shipPhone"
+                  placeholder="+977 9800000000"
+                />
               </div>
               <div class="form-group">
-                <label>Address</label
-                ><input type="text" placeholder="123 Yarn Street" />
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label>City</label
-                  ><input type="text" placeholder="Wooltown" />
-                </div>
-                <div class="form-group">
-                  <label>ZIP Code</label
-                  ><input type="text" placeholder="12345" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Country</label>
-                <select>
-                  <option>United States</option>
-                  <option>United Kingdom</option>
-                  <option>Canada</option>
-                  <option>Australia</option>
-                  <option>Nepal</option>
-                </select>
-              </div>
-            </div>
-            <div class="checkout-form-card">
-              <h3>💳 Payment</h3>
-              <div class="form-group">
-                <label>Card Number</label
-                ><input
+                <label>Address</label>
+                <input
                   type="text"
-                  placeholder="4242 4242 4242 4242"
-                  maxlength="19"
+                  id="shipAddress"
+                  placeholder="123 Yarn Street, Thamel"
                 />
               </div>
               <div class="form-row">
                 <div class="form-group">
-                  <label>Expiry Date</label
-                  ><input type="text" placeholder="MM/YY" />
+                  <label>City</label>
+                  <input type="text" id="shipCity" placeholder="Kathmandu" />
                 </div>
                 <div class="form-group">
-                  <label>CVV</label
-                  ><input type="text" placeholder="123" maxlength="4" />
+                  <label>ZIP</label>
+                  <input type="text" id="shipZip" placeholder="44600" />
                 </div>
               </div>
               <div class="form-group">
-                <label>Name on Card</label
-                ><input type="text" placeholder="Jane Doe" />
+                <label>Country</label>
+                <select id="shipCountry">
+                  <option>Nepal</option>
+                  <option>India</option>
+                  <option>United States</option>
+                  <option>United Kingdom</option>
+                  <option>Canada</option>
+                  <option>Australia</option>
+                </select>
               </div>
+            </div>
+
+            <!-- PAYMENT -->
+            <div class="checkout-card">
+              <h3>💳 Payment Method</h3>
+              <div class="payment-methods">
+                <div
+                  class="pay-option selected"
+                  id="payCard"
+                  onclick="selectPayment('card')"
+                >
+                  <div class="pay-icon">💳</div>
+                  <div class="pay-label">Credit / Debit Card</div>
+                  <div class="pay-sub">Visa, Mastercard, AMEX</div>
+                </div>
+                <div
+                  class="pay-option"
+                  id="payCod"
+                  onclick="selectPayment('cod')"
+                >
+                  <div class="pay-icon">🏠</div>
+                  <div class="pay-label">Cash on Delivery</div>
+                  <div class="pay-sub">Pay when you receive</div>
+                </div>
+              </div>
+
+              <!-- CARD FIELDS -->
+              <div class="card-fields show" id="cardFields">
+                <div class="form-group">
+                  <label>Card Number</label>
+                  <input
+                    type="text"
+                    id="cardNum"
+                    placeholder="4242 4242 4242 4242"
+                    maxlength="19"
+                    oninput="formatCard(this)"
+                  />
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Expiry</label>
+                    <input
+                      type="text"
+                      id="cardExp"
+                      placeholder="MM/YY"
+                      maxlength="5"
+                      oninput="formatExpiry(this)"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label>CVV</label>
+                    <input
+                      type="text"
+                      id="cardCvv"
+                      placeholder="123"
+                      maxlength="4"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Name on Card</label>
+                  <input type="text" id="cardName" placeholder="Jane Doe" />
+                </div>
+              </div>
+
+              <!-- COD FIELDS -->
+              <div class="cod-fields" id="codFields">
+                <div class="cod-info">
+                  🏠 <strong>Cash on Delivery</strong><br />
+                  Pay in cash when your package arrives. Our delivery partner
+                  will collect payment at your doorstep.<br /><br />
+                  📍 <strong>Available in:</strong> Kathmandu, Lalitpur,
+                  Bhaktapur & surrounding areas<br />
+                  ⏱️ <strong>Delivery:</strong> 3–7 business days<br />
+                  💵 <strong>No extra charges</strong> for COD orders
+                </div>
+              </div>
+
+              <div id="checkoutError" class="error-msg checkout-error"></div>
               <button
-                class="btn-primary"
-                style="
-                  width: 100%;
-                  margin-top: 0.5rem;
-                  border-radius: 12px;
-                  padding: 1rem;
-                "
+                class="btn-primary btn-full btn-place-order"
                 onclick="placeOrder()"
               >
-                // code for placing order 🎉 Place Order plac e order
+                🎉 Place Order
               </button>
-              <p
-                style="
-                  font-size: 0.78rem;
-                  color: var(--light-text);
-                  text-align: center;
-                  margin-top: 0.8rem;
-                "
-              >
-                🔒 Secured with 256-bit SSL encryption
+              <p class="checkout-security-note">
+                🔒 Your information is safe & encrypted
               </p>
             </div>
           </div>
+          <!-- ORDER SUMMARY -->
           <div class="order-summary-card" id="checkoutSummary"></div>
         </div>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════ SUCCESS -->
+    <!-- ══════════════════════ SUCCESS PAGE ══════════════════════ -->
     <div class="page" id="page-success">
       <div class="success-page">
-        <div class="success-icon">🎉</div>
-        <h2>Order Placed!</h2>
-        <div class="order-num" id="orderNumber">#WW-000000</div>
-        <p>
-          Thank you for your order! Your handcrafted treasures are being
-          carefully prepared. You'll receive a confirmation email shortly.
+        <div class="success-icon" id="successIcon">🎉</div>
+        <h2 id="successTitle">Order Placed!</h2>
+        <div class="order-num-chip" id="orderNumber">#WW-000000</div>
+        <p id="successMsg">
+          Thank you! Your handcrafted treasures are being carefully prepared.
         </p>
-        <p style="font-size: 0.85rem; color: var(--light-text)">
+        <p class="success-sub" id="successSub">
           Estimated delivery: 7–14 business days
         </p>
-        <button
-          class="btn-primary"
-          style="margin-top: 1.5rem"
-          onclick="showPage('home')"
-        >
-          ← Continue Shopping
-        </button>
+        <div class="success-actions">
+          <button class="btn-primary" onclick="myOrdersPage()">
+            📋 View My Orders
+          </button>
+          <button class="btn-secondary" onclick="showPage('home')">
+            ← Continue Shopping
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- ═══════════════════════════════════ ADMIN PAGE -->
+    <!-- ══════════════════════ MY ORDERS PAGE ══════════════════════ -->
+    <div class="page" id="page-orders">
+      <div class="orders-page">
+        <h2 class="orders-title">My Orders</h2>
+        <p class="orders-sub">Track your handcrafted deliveries</p>
+        <div id="myOrdersList"></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════ ADMIN DASHBOARD ══════════════════════ -->
     <div class="page" id="page-admin">
       <div class="admin-page">
         <div class="admin-header">
           <div>
             <h2>🧶 Admin Dashboard</h2>
-            <p style="color: var(--light-text); font-size: 0.9rem">
-              Woolly Wonders Store Management
-            </p>
+            <p class="admin-welcome" id="adminWelcome">Welcome, Admin</p>
           </div>
-          <button class="btn-secondary" onclick="showPage('home')">
-            ← Back to Store
-          </button>
+          <div class="admin-header-actions">
+            <button
+              class="notif-btn admin-notif-btn"
+              onclick="toggleNotifPanel()"
+            >
+              🔔 Notifications
+            </button>
+            <button
+              class="btn-secondary btn-admin-exit"
+              onclick="logoutAdmin()"
+            >
+              ← Exit Dashboard
+            </button>
+          </div>
         </div>
 
         <div class="admin-stats" id="adminStats"></div>
@@ -1669,8 +529,12 @@
           <button class="tab-btn" onclick="adminTab('addProduct', this)">
             ➕ Add Product
           </button>
+          <button class="tab-btn" onclick="adminTab('customers', this)">
+            👥 Customers
+          </button>
         </div>
 
+        <!-- ORDERS TABLE -->
         <div id="adminOrders" class="admin-panel">
           <table class="admin-table">
             <thead>
@@ -1679,6 +543,7 @@
                 <th>Customer</th>
                 <th>Items</th>
                 <th>Total</th>
+                <th>Payment</th>
                 <th>Date</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -1688,11 +553,12 @@
           </table>
         </div>
 
-        <div id="adminProducts" class="admin-panel" style="display: none">
+        <!-- PRODUCTS TABLE -->
+        <div id="adminProducts" class="admin-panel hidden">
           <table class="admin-table">
             <thead>
               <tr>
-                <th>Emoji</th>
+                <th>Icon</th>
                 <th>Name</th>
                 <th>Category</th>
                 <th>Price</th>
@@ -1704,21 +570,18 @@
           </table>
         </div>
 
-        <div id="adminAddProduct" class="admin-panel" style="display: none">
+        <!-- ADD PRODUCT -->
+        <div id="adminAddProduct" class="admin-panel hidden">
           <div class="product-form">
             <h4>Add New Product</h4>
             <div class="form-row">
               <div class="form-group">
-                <label>Product Name</label
-                ><input
-                  type="text"
-                  id="newName"
-                  placeholder="Cozy Beanie Hat"
-                />
+                <label>Product Name</label>
+                <input type="text" id="newName" placeholder="Cozy Beanie Hat" />
               </div>
               <div class="form-group">
-                <label>Emoji Icon</label
-                ><input
+                <label>Emoji Icon</label>
+                <input
                   type="text"
                   id="newEmoji"
                   placeholder="🧢"
@@ -1728,8 +591,8 @@
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label>Price ($)</label
-                ><input
+                <label>Price ($)</label>
+                <input
                   type="number"
                   id="newPrice"
                   placeholder="29.99"
@@ -1748,8 +611,8 @@
               </div>
             </div>
             <div class="form-group">
-              <label>Description</label
-              ><textarea
+              <label>Description</label>
+              <textarea
                 id="newDesc"
                 rows="3"
                 placeholder="Describe your product..."
@@ -1757,16 +620,16 @@
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label>Colors (comma separated)</label
-                ><input
+                <label>Colors (comma separated hex)</label>
+                <input
                   type="text"
                   id="newColors"
-                  placeholder="#D4856A, #8FAF8A, #B5603A"
+                  placeholder="#D4856A, #8FAF8A"
                 />
               </div>
               <div class="form-group">
-                <label>Materials</label
-                ><input
+                <label>Material</label>
+                <input
                   type="text"
                   id="newMaterial"
                   placeholder="100% Merino Wool"
@@ -1774,13 +637,29 @@
               </div>
             </div>
             <div class="form-group">
-              <label>Stock</label
-              ><input type="number" id="newStock" placeholder="50" />
+              <label>Stock Quantity</label>
+              <input type="number" id="newStock" placeholder="50" />
             </div>
             <button class="btn-success" onclick="addProduct()">
               ✓ Add Product
             </button>
           </div>
+        </div>
+
+        <!-- CUSTOMERS TABLE -->
+        <div id="adminCustomers" class="admin-panel hidden">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Orders</th>
+                <th>Total Spent</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody id="customersTable"></tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -1799,9 +678,8 @@
           <h4>Shop</h4>
           <ul>
             <li>All Products</li>
-            <li>New Arrivals</li>
+            <li>New Arrivals</li>git 
             <li>Bestsellers</li>
-            <li>Sale</li>
           </ul>
         </div>
         <div class="footer-col">
@@ -1810,7 +688,6 @@
             <li>About Us</li>
             <li>Care Guide</li>
             <li>Shipping</li>
-            <li>Returns</li>
           </ul>
         </div>
         <div class="footer-col">
@@ -1818,750 +695,16 @@
           <ul>
             <li>Instagram</li>
             <li>Pinterest</li>
-            <li>Etsy Shop</li>
             <li>Contact</li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
         <span>© 2025 Woolly Wonders. All rights reserved.</span>
-        <span class="made-with">Made with 🧶 & love</span>
+        <span class="footer-love">Made with 🧶 & love</span>
       </div>
     </footer>
 
-    <script>
-      // ═══════════════════════════════════════════════════════════
-      // DATA STORE — "Backend" simulation with localStorage
-      // ═══════════════════════════════════════════════════════════
-      const DB = {
-        products: JSON.parse(localStorage.getItem("ww_products") || "null") || [
-          {
-            id: 1,
-            name: "Chunky Throw Blanket",
-            emoji: "🛏️",
-            price: 89.99,
-            category: "home",
-            desc: "Ultra-soft chunky knit throw blanket. Perfect for snuggling on the sofa. Made from 100% merino wool in gorgeous earth tones.",
-            material: "100% Merino Wool",
-            colors: ["#D4856A", "#8FAF8A", "#F2D4C2"],
-            badge: "bestseller",
-            rating: 5,
-            reviews: 234,
-            stock: 23,
-          },
-          {
-            id: 2,
-            name: "Boho Market Bag",
-            emoji: "🛍️",
-            price: 34.99,
-            category: "accessories",
-            desc: "Stylish and sustainable market bag. Stretches to fit all your groceries while looking incredibly chic. The perfect eco-friendly tote.",
-            material: "Recycled Cotton",
-            colors: ["#6B4C3B", "#B5603A", "#D4856A"],
-            badge: "new",
-            rating: 5,
-            reviews: 89,
-            stock: 45,
-          },
-          {
-            id: 3,
-            name: "Sunflower Coaster Set",
-            emoji: "🌻",
-            price: 22.0,
-            category: "home",
-            desc: "Set of 4 hand-crocheted sunflower coasters. Brighten up any table setting with these charming and functional pieces.",
-            material: "Cotton Yarn",
-            colors: ["#EF9F27", "#8FAF8A", "#FAF6EF"],
-            badge: "",
-            rating: 4,
-            reviews: 156,
-            stock: 67,
-          },
-          {
-            id: 4,
-            name: "Baby Bear Beanie",
-            emoji: "🐻",
-            price: 19.99,
-            category: "baby",
-            desc: "Adorable bear ear beanie for newborns to 12 months. So soft it won't irritate delicate skin. A perfect baby shower gift.",
-            material: "Organic Baby Yarn",
-            colors: ["#F2D4C2", "#8FAF8A", "#D4856A"],
-            badge: "new",
-            rating: 5,
-            reviews: 312,
-            stock: 34,
-          },
-          {
-            id: 5,
-            name: "Granny Square Cardigan",
-            emoji: "🧥",
-            price: 129.0,
-            category: "wearable",
-            desc: "A modern take on the classic granny square. This relaxed-fit cardigan is the ultimate cozy statement piece for any wardrobe.",
-            material: "Alpaca & Wool Blend",
-            colors: ["#6B4C3B", "#FAF6EF", "#D4856A"],
-            badge: "bestseller",
-            rating: 5,
-            reviews: 78,
-            stock: 12,
-          },
-          {
-            id: 6,
-            name: "Plant Pot Holder",
-            emoji: "🪴",
-            price: 16.5,
-            category: "home",
-            desc: "Elevate your indoor plants with these boho-style pot holders. Available in multiple sizes to fit your favourite pots.",
-            material: "Jute & Cotton",
-            colors: ["#8FAF8A", "#6B4C3B", "#D4856A"],
-            badge: "",
-            rating: 4,
-            reviews: 201,
-            stock: 89,
-          },
-          {
-            id: 7,
-            name: "Winter Mittens",
-            emoji: "🧤",
-            price: 27.99,
-            category: "wearable",
-            desc: "Thick, warm crochet mittens to keep your hands toasty. Features a lovely cable-like texture that is both stylish and functional.",
-            material: "Wool & Cashmere",
-            colors: ["#B5603A", "#8FAF8A", "#6B4C3B"],
-            badge: "sale",
-            rating: 4,
-            reviews: 145,
-            stock: 28,
-          },
-          {
-            id: 8,
-            name: "Fringe Crossbody Bag",
-            emoji: "👜",
-            price: 54.99,
-            category: "accessories",
-            desc: "Bohemian fringe bag with a full-length shoulder strap. Handmade from high-quality cotton cord with an adjustable strap.",
-            material: "Cotton Cord",
-            colors: ["#6B4C3B", "#D4856A", "#8FAF8A"],
-            badge: "new",
-            rating: 5,
-            reviews: 67,
-            stock: 19,
-          },
-          {
-            id: 9,
-            name: "Christmas Ornament Set",
-            emoji: "🎄",
-            price: 38.0,
-            category: "seasonal",
-            desc: "Set of 6 mini crochet Christmas ornaments. Each one is unique — trees, stars, snowflakes and more. A beloved family tradition.",
-            material: "Mixed Yarns",
-            colors: ["#B5603A", "#8FAF8A", "#FAF6EF"],
-            badge: "seasonal",
-            rating: 5,
-            reviews: 423,
-            stock: 55,
-          },
-          {
-            id: 10,
-            name: "Baby Bunny Lovey",
-            emoji: "🐰",
-            price: 32.0,
-            category: "baby",
-            desc: "The most adorable security blanket/stuffed toy combo. Baby-safe materials and machine washable. A gift parents will love too.",
-            material: "Organic Cotton",
-            colors: ["#F2D4C2", "#FAF6EF", "#D4856A"],
-            badge: "bestseller",
-            rating: 5,
-            reviews: 289,
-            stock: 41,
-          },
-          {
-            id: 11,
-            name: "Beret Hat",
-            emoji: "🎩",
-            price: 35.0,
-            category: "wearable",
-            desc: "Chic French-inspired crochet beret. Fits most adult head sizes. Pairs beautifully with the Granny Square Cardigan.",
-            material: "Merino Wool",
-            colors: ["#6B4C3B", "#B5603A", "#8FAF8A"],
-            badge: "new",
-            rating: 4,
-            reviews: 93,
-            stock: 37,
-          },
-          {
-            id: 12,
-            name: "Dreamcatcher Wall Art",
-            emoji: "🌙",
-            price: 48.0,
-            category: "home",
-            desc: "Handwoven dreamcatcher with crochet detailing. Feathers, beads, and intricate knot work create a truly magical piece.",
-            material: "Cotton & Feathers",
-            colors: ["#D4856A", "#FAF6EF", "#8FAF8A"],
-            badge: "",
-            rating: 5,
-            reviews: 176,
-            stock: 22,
-          },
-        ],
-        orders: JSON.parse(localStorage.getItem("ww_orders") || "null") || [
-          {
-            id: "WW-001234",
-            customer: "Sarah M.",
-            items: 3,
-            total: 144.97,
-            date: "2025-06-12",
-            status: "delivered",
-          },
-          {
-            id: "WW-001235",
-            customer: "Tom K.",
-            items: 1,
-            total: 89.99,
-            date: "2025-06-14",
-            status: "shipped",
-          },
-          {
-            id: "WW-001236",
-            customer: "Lily R.",
-            items: 5,
-            total: 278.45,
-            date: "2025-06-15",
-            status: "pending",
-          },
-          {
-            id: "WW-001237",
-            customer: "James P.",
-            items: 2,
-            total: 62.99,
-            date: "2025-06-16",
-            status: "pending",
-          },
-        ],
-        cart: JSON.parse(localStorage.getItem("ww_cart") || "[]"),
-
-        save() {
-          localStorage.setItem("ww_products", JSON.stringify(this.products));
-          localStorage.setItem("ww_orders", JSON.stringify(this.orders));
-          localStorage.setItem("ww_cart", JSON.stringify(this.cart));
-        },
-      };
-
-      // ═══════════════════════════════════════════════════════════
-      // STATE
-      // ═══════════════════════════════════════════════════════════
-      let currentFilter = "all";
-      let shopFilter = "all";
-      let prevPage = "home";
-      let currentDetailId = null;
-      let detailQty = 1;
-
-      // ═══════════════════════════════════════════════════════════
-      // PAGE ROUTING
-      // ═══════════════════════════════════════════════════════════
-      function showPage(name) {
-        document
-          .querySelectorAll(".page")
-          .forEach((p) => p.classList.remove("active"));
-        document.getElementById("page-" + name).classList.add("active");
-        window.scrollTo(0, 0);
-        if (name === "home") renderHomeGrids();
-        if (name === "shop") renderShopGrid();
-        if (name === "checkout") renderCheckoutSummary();
-        if (name === "admin") renderAdmin();
-      }
-
-      function goBack() {
-        showPage(prevPage);
-      }
-
-      // ═══════════════════════════════════════════════════════════
-      // PRODUCT RENDERING
-      // ═══════════════════════════════════════════════════════════
-      function stars(n) {
-        return "★".repeat(n) + "☆".repeat(5 - n);
-      }
-
-      function badgeHtml(b) {
-        if (!b) return "";
-        const map = {
-          bestseller: "bestseller",
-          new: "new",
-          sale: "sale",
-          seasonal: "",
-        };
-        if (b === "bestseller")
-          return `<span class="product-badge">⭐ Bestseller</span>`;
-        if (b === "new") return `<span class="product-badge new">✨ New</span>`;
-        if (b === "sale")
-          return `<span class="product-badge sale">🏷️ Sale</span>`;
-        if (b === "seasonal")
-          return `<span class="product-badge" style="background:var(--sage)">🍂 Seasonal</span>`;
-        return "";
-      }
-
-      function productCardHtml(p) {
-        const bg = `background: linear-gradient(135deg, ${p.colors[0]}22 0%, ${p.colors[1]}22 100%)`;
-        return `
-    <div class="product-card" onclick="openDetail(${p.id})">
-      <div class="product-img" style="${bg}">
-        ${badgeHtml(p.badge)}
-        <span style="position:relative;z-index:1">${p.emoji}</span>
-      </div>
-      <div class="product-info">
-        <div class="product-cat">${p.category}</div>
-        <div class="stars">${stars(p.rating)} <span style="color:var(--light-text);font-size:0.75rem">(${p.reviews})</span></div>
-        <div class="product-name">${p.name}</div>
-        <div class="product-price-row">
-          <div class="product-price">$${p.price.toFixed(2)}</div>
-          <button class="btn-add" onclick="event.stopPropagation();addToCart(${p.id})">+ Add</button>
-        </div>
-      </div>
-    </div>`;
-      }
-
-      function renderHomeGrids() {
-        const filtered =
-          currentFilter === "all"
-            ? DB.products
-            : DB.products.filter((p) => p.category === currentFilter);
-        document.getElementById("homeGrid").innerHTML = filtered
-          .slice(0, 8)
-          .map(productCardHtml)
-          .join("");
-        const newArrivals = DB.products.filter((p) => p.badge === "new");
-        document.getElementById("newGrid").innerHTML = newArrivals
-          .map(productCardHtml)
-          .join("");
-        setupReveal();
-      }
-
-      function renderShopGrid() {
-        const q = (
-          document.getElementById("searchInput")?.value || ""
-        ).toLowerCase();
-        let filtered = DB.products;
-        if (shopFilter !== "all")
-          filtered = filtered.filter((p) => p.category === shopFilter);
-        if (q)
-          filtered = filtered.filter(
-            (p) =>
-              p.name.toLowerCase().includes(q) ||
-              p.desc.toLowerCase().includes(q),
-          );
-        document.getElementById("shopGrid").innerHTML = filtered
-          .map(productCardHtml)
-          .join("");
-      }
-
-      function filterProducts(cat, btn) {
-        currentFilter = cat;
-        document
-          .querySelectorAll("#page-home .filter-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        renderHomeGrids();
-      }
-
-      function filterShop(cat, btn) {
-        shopFilter = cat;
-        document
-          .querySelectorAll("#shopFilters .filter-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        renderShopGrid();
-      }
-
-      function searchProducts() {
-        renderShopGrid();
-      }
-
-      // ═══════════════════════════════════════════════════════════
-      // PRODUCT DETAIL
-      // ═══════════════════════════════════════════════════════════
-      function openDetail(id) {
-        prevPage = document
-          .querySelector(".page.active")
-          .id.replace("page-", "");
-        currentDetailId = id;
-        detailQty = 1;
-        const p = DB.products.find((x) => x.id === id);
-        if (!p) return;
-        document.getElementById("breadcrumbBack").textContent =
-          prevPage.charAt(0).toUpperCase() + prevPage.slice(1);
-        const colorsHtml = p.colors
-          .map(
-            (c, i) =>
-              `<div class="color-dot ${i === 0 ? "selected" : ""}" style="background:${c}" onclick="selectColor(this)"></div>`,
-          )
-          .join("");
-        document.getElementById("detailContent").innerHTML = `
-    <div class="detail-img-wrap">${p.emoji}</div>
-    <div>
-      <div class="detail-category">🧶 ${p.category}</div>
-      <h2 class="detail-name">${p.name}</h2>
-      <div class="stars" style="font-size:1rem">${stars(p.rating)} <span style="color:var(--light-text)">${p.reviews} reviews</span></div>
-      <div class="detail-price">$${p.price.toFixed(2)}</div>
-      <p class="detail-desc">${p.desc}</p>
-      <div class="detail-meta">
-        <div class="meta-row"><span class="meta-label">Material</span><span class="meta-val">${p.material}</span></div>
-        <div class="meta-row"><span class="meta-label">Color</span><div class="color-dots">${colorsHtml}</div></div>
-        <div class="meta-row"><span class="meta-label">In Stock</span><span class="meta-val" style="color:var(--sage-dark)">✓ ${p.stock} available</span></div>
-        <div class="meta-row"><span class="meta-label">Care</span><span class="meta-val">Hand wash cold</span></div>
-      </div>
-      <div class="qty-row">
-        <div class="qty-large">
-          <button onclick="changeDetailQty(-1)">−</button>
-          <span id="detailQtyNum">1</span>
-          <button onclick="changeDetailQty(1)">+</button>
-        </div>
-        <button class="btn-detail-add" onclick="addToCartQty(${p.id})">🛒 Add to Basket — $${p.price.toFixed(2)}</button>
-      </div>
-      <p style="font-size:0.8rem;color:var(--light-text)">🚚 Free shipping on orders over $75 &nbsp;·&nbsp; ↩️ Easy returns within 30 days</p>
-    </div>`;
-        showPage("detail");
-      }
-
-      function changeDetailQty(d) {
-        detailQty = Math.max(1, detailQty + d);
-        document.getElementById("detailQtyNum").textContent = detailQty;
-        const p = DB.products.find((x) => x.id === currentDetailId);
-        document.querySelector(".btn-detail-add").textContent =
-          `🛒 Add to Basket — $${(p.price * detailQty).toFixed(2)}`;
-      }
-
-      function addToCartQty(id) {
-        const p = DB.products.find((x) => x.id === id);
-        for (let i = 0; i < detailQty; i++) addToCart(id, false);
-        toast(`${p.emoji} Added ${detailQty}× ${p.name}!`);
-      }
-
-      function selectColor(dot) {
-        dot
-          .closest(".color-dots")
-          .querySelectorAll(".color-dot")
-          .forEach((d) => d.classList.remove("selected"));
-        dot.classList.add("selected");
-      }
-
-      // ═══════════════════════════════════════════════════════════
-      // CART
-      // ═══════════════════════════════════════════════════════════
-      function addToCart(id, showToast = true) {
-        const p = DB.products.find((x) => x.id === id);
-        const existing = DB.cart.find((i) => i.id === id);
-        if (existing) {
-          existing.qty++;
-        } else {
-          DB.cart.push({ id, qty: 1 });
-        }
-        DB.save();
-        updateCartBadge();
-        if (showToast) toast(`${p.emoji} Added to basket!`);
-        renderCart();
-      }
-
-      function removeFromCart(id) {
-        DB.cart = DB.cart.filter((i) => i.id !== id);
-        DB.save();
-        updateCartBadge();
-        renderCart();
-      }
-
-      function changeQty(id, d) {
-        const item = DB.cart.find((i) => i.id === id);
-        if (!item) return;
-        item.qty = Math.max(1, item.qty + d);
-        DB.save();
-        updateCartBadge();
-        renderCart();
-      }
-
-      function updateCartBadge() {
-        const total = DB.cart.reduce((s, i) => s + i.qty, 0);
-        document.getElementById("cartCount").textContent = total;
-      }
-
-      function cartTotal() {
-        return DB.cart.reduce((s, i) => {
-          const p = DB.products.find((x) => x.id === i.id);
-          return s + (p ? p.price * i.qty : 0);
-        }, 0);
-      }
-
-      function renderCart() {
-        const el = document.getElementById("cartItems");
-        const footer = document.getElementById("cartFooter");
-        if (DB.cart.length === 0) {
-          el.innerHTML = `<div class="empty-cart"><div>🧺</div><p>Your basket is empty.<br>Find something lovely!</p></div>`;
-          footer.innerHTML = "";
-          return;
-        }
-        el.innerHTML = DB.cart
-          .map((item) => {
-            const p = DB.products.find((x) => x.id === item.id);
-            if (!p) return "";
-            return `
-      <div class="cart-item">
-        <div class="cart-item-img">${p.emoji}</div>
-        <div class="cart-item-info">
-          <div class="cart-item-name">${p.name}</div>
-          <div class="cart-item-price">$${(p.price * item.qty).toFixed(2)}</div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
-            <span class="qty-num">${item.qty}</span>
-            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
-          </div>
-        </div>
-        <button class="btn-remove" onclick="removeFromCart(${item.id})">🗑️</button>
-      </div>`;
-          })
-          .join("");
-        const subtotal = cartTotal();
-        const shipping = subtotal >= 75 ? 0 : 8.99;
-        const total = subtotal + shipping;
-        footer.innerHTML = `
-    <div class="cart-summary">
-      <div class="cart-row"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
-      <div class="cart-row"><span>Shipping</span><span>${shipping === 0 ? "🎉 Free!" : "$" + shipping.toFixed(2)}</span></div>
-      <div class="cart-row total"><span>Total</span><span>$${total.toFixed(2)}</span></div>
-    </div>
-    <button class="btn-checkout" onclick="goCheckout()">Proceed to Checkout →</button>`;
-      }
-
-      function toggleCart() {
-        const overlay = document.getElementById("cartOverlay");
-        const sidebar = document.getElementById("cartSidebar");
-        const isOpen = sidebar.classList.contains("open");
-        overlay.classList.toggle("open", !isOpen);
-        sidebar.classList.toggle("open", !isOpen);
-        if (!isOpen) renderCart();
-      }
-
-      function goCheckout() {
-        toggleCart();
-        showPage("checkout");
-      }
-
-      // ═══════════════════════════════════════════════════════════
-      // CHECKOUT
-      // ═══════════════════════════════════════════════════════════
-      function renderCheckoutSummary() {
-        const subtotal = cartTotal();
-        const shipping = subtotal >= 75 ? 0 : 8.99;
-        const total = subtotal + shipping;
-        let items = DB.cart
-          .map((item) => {
-            const p = DB.products.find((x) => x.id === item.id);
-            return `<div class="summary-item"><span>${p.emoji} ${p.name} ×${item.qty}</span><span>$${(p.price * item.qty).toFixed(2)}</span></div>`;
-          })
-          .join("");
-        document.getElementById("checkoutSummary").innerHTML = `
-    <h3>Order Summary</h3>
-    ${items}
-    <hr class="summary-divider">
-    <div class="summary-item"><span>Subtotal</span><span>$${subtotal.toFixed(2)}</span></div>
-    <div class="summary-item"><span>Shipping</span><span>${shipping === 0 ? "Free" : "$" + shipping.toFixed(2)}</span></div>
-    <hr class="summary-divider">
-    <div class="summary-total"><span>Total</span><span>$${total.toFixed(2)}</span></div>
-    <p style="font-size:0.78rem;color:var(--light-text);margin-top:1rem;line-height:1.5">🧶 Each item is handcrafted just for you. Please allow 3–5 days for crafting before shipping.</p>`;
-      }
-
-      function placeOrder() {
-        if (DB.cart.length === 0) {
-          toast("Your cart is empty!");
-          return;
-        }
-        const orderId =
-          "WW-" + String(Math.floor(100000 + Math.random() * 900000));
-        const total = cartTotal() + (cartTotal() >= 75 ? 0 : 8.99);
-        DB.orders.unshift({
-          id: orderId,
-          customer: "You",
-          items: DB.cart.reduce((s, i) => s + i.qty, 0),
-          total: total,
-          date: new Date().toISOString().split("T")[0],
-          status: "pending",
-        });
-        DB.cart = [];
-        DB.save();
-        updateCartBadge();
-        document.getElementById("orderNumber").textContent = "#" + orderId;
-        showPage("success");
-      }
-
-      // ═══════════════════════════════════════════════════════════
-      // ADMIN
-      // ═══════════════════════════════════════════════════════════
-      function renderAdmin() {
-        // Stats
-        const revenue = DB.orders.reduce((s, o) => s + o.total, 0);
-        document.getElementById("adminStats").innerHTML = `
-    <div class="admin-stat-card"><div class="admin-stat-icon">💰</div><div class="admin-stat-val">$${revenue.toFixed(0)}</div><div class="admin-stat-label">Total Revenue</div></div>
-    <div class="admin-stat-card"><div class="admin-stat-icon">📦</div><div class="admin-stat-val">${DB.orders.length}</div><div class="admin-stat-label">Total Orders</div></div>
-    <div class="admin-stat-card"><div class="admin-stat-icon">🧶</div><div class="admin-stat-val">${DB.products.length}</div><div class="admin-stat-label">Products</div></div>
-    <div class="admin-stat-card"><div class="admin-stat-icon">⏳</div><div class="admin-stat-val">${DB.orders.filter((o) => o.status === "pending").length}</div><div class="admin-stat-label">Pending</div></div>`;
-
-        // Orders table
-        document.getElementById("ordersTable").innerHTML = DB.orders
-          .map(
-            (o) => `
-    <tr>
-      <td><strong>${o.id}</strong></td>
-      <td>${o.customer}</td>
-      <td>${o.items} items</td>
-      <td>$${o.total.toFixed(2)}</td>
-      <td>${o.date}</td>
-      <td><span class="status-badge status-${o.status}">${o.status}</span></td>
-      <td>
-        <select onchange="updateOrderStatus('${o.id}',this.value)" style="font-size:0.8rem;padding:0.3rem">
-          <option value="pending" ${o.status === "pending" ? "selected" : ""}>Pending</option>
-          <option value="shipped" ${o.status === "shipped" ? "selected" : ""}>Shipped</option>
-          <option value="delivered" ${o.status === "delivered" ? "selected" : ""}>Delivered</option>
-        </select>
-      </td>
-    </tr>`,
-          )
-          .join("");
-
-        // Products table
-        document.getElementById("productsTable").innerHTML = DB.products
-          .map(
-            (p) => `
-    <tr>
-      <td style="font-size:1.5rem">${p.emoji}</td>
-      <td><strong>${p.name}</strong></td>
-      <td>${p.category}</td>
-      <td>$${p.price.toFixed(2)}</td>
-      <td>${p.stock}</td>
-      <td><button class="btn-danger" onclick="deleteProduct(${p.id})">Delete</button></td>
-    </tr>`,
-          )
-          .join("");
-      }
-
-      function adminTab(tab, btn) {
-        document
-          .querySelectorAll(".tab-btn")
-          .forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById("adminOrders").style.display =
-          tab === "orders" ? "block" : "none";
-        document.getElementById("adminProducts").style.display =
-          tab === "products" ? "block" : "none";
-        document.getElementById("adminAddProduct").style.display =
-          tab === "addProduct" ? "block" : "none";
-      }
-
-      function updateOrderStatus(id, status) {
-        const o = DB.orders.find((x) => x.id === id);
-        if (o) {
-          o.status = status;
-          DB.save();
-          renderAdmin();
-          toast("Order status updated!");
-        }
-      }
-
-      function deleteProduct(id) {
-        if (!confirm("Delete this product?")) return;
-        DB.products = DB.products.filter((p) => p.id !== id);
-        DB.save();
-        renderAdmin();
-        toast("Product deleted.");
-      }
-
-      function addProduct() {
-        const name = document.getElementById("newName").value.trim();
-        const emoji = document.getElementById("newEmoji").value.trim() || "🧶";
-        const price = parseFloat(document.getElementById("newPrice").value);
-        const category = document.getElementById("newCategory").value;
-        const desc = document.getElementById("newDesc").value.trim();
-        const colors = document
-          .getElementById("newColors")
-          .value.split(",")
-          .map((c) => c.trim())
-          .filter(Boolean);
-        const material =
-          document.getElementById("newMaterial").value.trim() ||
-          "Handcrafted Yarn";
-        const stock = parseInt(document.getElementById("newStock").value) || 20;
-        if (!name || isNaN(price)) {
-          toast("Please fill in name and price.");
-          return;
-        }
-        const newId = Math.max(...DB.products.map((p) => p.id)) + 1;
-        DB.products.push({
-          id: newId,
-          name,
-          emoji,
-          price,
-          category,
-          desc: desc || "A beautiful handcrafted piece.",
-          material,
-          colors: colors.length ? colors : ["#D4856A", "#8FAF8A"],
-          badge: "new",
-          rating: 5,
-          reviews: 0,
-          stock,
-        });
-        DB.save();
-        toast(`✓ "${name}" added successfully!`);
-        [
-          "newName",
-          "newEmoji",
-          "newPrice",
-          "newDesc",
-          "newColors",
-          "newMaterial",
-          "newStock",
-        ].forEach((id) => (document.getElementById(id).value = ""));
-        renderAdmin();
-      }
-
-      // ═══════════════════════════════════════════════════════════
-      // TOAST
-      // ═══════════════════════════════════════════════════════════
-      function toast(msg) {
-        const wrap = document.getElementById("toastWrap");
-        const t = document.createElement("div");
-        t.className = "toast";
-        t.textContent = msg;
-        wrap.appendChild(t);
-        setTimeout(() => {
-          t.classList.add("hiding");
-          setTimeout(() => t.remove(), 300);
-        }, 2800);
-      }
-
-      // ═══════════════════════════════════════════════════════════
-      // SCROLL REVEAL
-      // ═══════════════════════════════════════════════════════════
-      function setupReveal() {
-        const obs = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (e.isIntersecting) e.target.classList.add("visible");
-            });
-          },
-          { threshold: 0.1 },
-        );
-        document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
-      }
-
-      function scrollToSection(id) {
-        showPage("home");
-        setTimeout(
-          () =>
-            document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }),
-          100,
-        );
-      }
-
-      renderHomeGrids();
-      updateCartBadge();
-      setupReveal();
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>
-adapajv alcapva alna
