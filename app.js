@@ -1111,6 +1111,16 @@ function statusLabel(s) {
   return map[s] || s;
 }
 
+function statusLabel(s) {
+  const map = {
+    pending: "⏳ Pending",
+    confirmed: "✅ Confirmed",
+    shipped: "🚚 Shipped",
+    delivered: "📬 Delivered",
+  };
+  return map[s] || s;
+}
+
 // ═══════════════════════════════════
 // ADMIN DASHBOARD
 // ═══════════════════════════════════
@@ -1168,6 +1178,21 @@ function renderAdmin() {
       </tr>`,
           )
           .join("");
+
+  // Products
+  document.getElementById("productsTable").innerHTML = DB.products
+    .map(
+      (p) => `
+    <tr>
+      <td class="product-emoji">${p.emoji}</td>
+      <td><strong>${p.name}</strong></td>
+      <td>${p.category}</td>
+      <td>$${p.price.toFixed(2)}</td>
+      <td>${p.stock}</td>
+      <td><button class="btn-danger" onclick="deleteProduct(${p.id})">Delete</button></td>
+    </tr>`,
+    )
+    .join("");
 
   // Products
   document.getElementById("productsTable").innerHTML = DB.products
@@ -1316,9 +1341,6 @@ function addProduct() {
   renderAdmin();
 }
 
-// ═══════════════════════════════════
-// TOAST
-// ═══════════════════════════════════
 function toast(msg) {
   const wrap = document.getElementById("toastWrap");
   const t = document.createElement("div");
@@ -1331,9 +1353,6 @@ function toast(msg) {
   }, 2800);
 }
 
-// ═══════════════════════════════════
-// REVEAL ANIMATION
-// ═══════════════════════════════════
 function setupReveal() {
   const obs = new IntersectionObserver(
     (entries) => {
@@ -1346,16 +1365,10 @@ function setupReveal() {
   document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
 }
 
-// ═══════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════
 function today() {
   return new Date().toISOString().split("T")[0];
 }
 
-// ═══════════════════════════════════
-// INIT
-// ═══════════════════════════════════
 updateNavUser();
 renderHomeGrids();
 updateCartBadge();
