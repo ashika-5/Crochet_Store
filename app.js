@@ -1048,6 +1048,11 @@ function renderCheckoutSummary() {
     })
     .join("");
 
+  ehafqag;
+  ajfpqg;
+  qljfpqgw;
+  qlkfhqpo;
+
   document.getElementById("checkoutSummary").innerHTML = `
     <h3>Order Summary</h3>
     ${items}
