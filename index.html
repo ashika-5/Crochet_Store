@@ -127,6 +127,9 @@
       <ul class="nav-links">
         <li><a onclick="showPage('shop')">Shop</a></li>
         <li><a onclick="scrollToSection('featured')">Collections</a></li>
+        <li id="dashboardLink" style="display: none">
+          <a onclick="showPage('admin')">Dashboard</a>
+        </li>
         <li><a onclick="myOrdersPage()">My Orders</a></li>
       </ul>
       <div class="nav-actions">
@@ -166,7 +169,7 @@
           preload="auto"
           aria-hidden="true"
         >
-          <source src="bgvideo/Untitled%20video.mp4" type="video/mp4" />
+          <source src="bgvideo/hero-bg.mp4" type="video/mp4" />
         </video>
         <div class="hero-overlay" aria-hidden="true"></div>
         <div class="hero-inner">
@@ -211,7 +214,7 @@
       </section>
 
       <!-- TRUST BAR -->
-      <div class="trust-bar reveal">
+      <div class="trust-bar reveal" id="trust">
         <div class="trust-item">
           <span class="trust-icon">🧶</span>
           <div class="trust-text">
@@ -246,26 +249,7 @@
             View all →
           </button>
         </div>
-        <div class="filters">
-          <button class="filter-btn active" onclick="filterHome('all', this)">
-            All
-          </button>
-          <button class="filter-btn" onclick="filterHome('home', this)">
-            🏠 Home
-          </button>
-          <button class="filter-btn" onclick="filterHome('wearable', this)">
-            👗 Wearable
-          </button>
-          <button class="filter-btn" onclick="filterHome('baby', this)">
-            🍼 Baby
-          </button>
-          <button class="filter-btn" onclick="filterHome('accessories', this)">
-            👜 Accessories
-          </button>
-          <button class="filter-btn" onclick="filterHome('seasonal', this)">
-            🍂 Seasonal
-          </button>
-        </div>
+        <div class="filters" id="homeFilters"></div>
         <div class="product-grid" id="homeGrid"></div>
       </section>
 
@@ -283,7 +267,7 @@
       </div>
 
       <!-- NEW ARRIVALS -->
-      <section class="section reveal">
+      <section class="section reveal" id="new-arrivals">
         <div class="section-header">
           <div>
             <h2>New Arrivals</h2>
@@ -308,25 +292,10 @@
             oninput="renderShopGrid()"
           />
         </div>
-        <div class="filters" id="shopFilters">
-          <button class="filter-btn active" onclick="filterShop('all', this)">
-            All
-          </button>
-          <button class="filter-btn" onclick="filterShop('home', this)">
-            🏠 Home
-          </button>
-          <button class="filter-btn" onclick="filterShop('wearable', this)">
-            👗 Wearable
-          </button>
-          <button class="filter-btn" onclick="filterShop('baby', this)">
-            🍼 Baby
-          </button>
-          <button class="filter-btn" onclick="filterShop('accessories', this)">
-            👜 Accessories
-          </button>
-          <button class="filter-btn" onclick="filterShop('seasonal', this)">
-            🍂 Seasonal
-          </button>
+        <div class="filters" id="shopFilters"></div>
+        <div class="sub-filter" id="subFilterWrap" style="display: none">
+          <label for="subFilter">Subcategory</label>
+          <select id="subFilter" onchange="setSubFilter(this.value)"></select>
         </div>
         <div class="product-grid" id="shopGrid"></div>
       </section>
@@ -537,12 +506,21 @@
 
     <!-- ══════════════════════ CUSTOM ORDER PAGE ══════════════════════ -->
     <div class="page" id="page-custom">
-      <div class="custom-order-page">
-        <div class="custom-head">
-          <h2>Custom Order Request</h2>
-          <p>Tell us your vision — we'll crochet it just for you</p>
+      <div class="admin-page">
+        <div class="admin-header">
+          <div>
+            <h2>🎨 Custom Order Request</h2>
+            <p class="admin-welcome">
+              Tell us your vision — we'll crochet it just for you
+            </p>
+          </div>
+          <div class="admin-header-actions">
+            <button class="btn-secondary" onclick="showPage('home')">
+              ← Back to Home
+            </button>
+          </div>
         </div>
-        <div class="custom-order-card">
+        <div class="admin-panel custom-panel">
           <form id="customOrderForm" onsubmit="submitCustomOrder(); return false;">
             <div class="form-row">
               <div class="form-group">
@@ -558,10 +536,11 @@
               <div class="form-group">
                 <label>Item Type</label>
                 <select id="coType">
-                  <option value="Wearable">Wearable</option>
-                  <option value="Home Decor">Home Decor</option>
-                  <option value="Baby Items">Baby Items</option>
-                  <option value="Accessories">Accessories</option>
+                  <option value="Wearables">Wearables</option>
+                  <option value="Home &amp; Decor">Home &amp; Decor</option>
+                  <option value="Baby &amp; Kids">Baby &amp; Kids</option>
+                  <option value="Bags &amp; Accessories">Bags &amp; Accessories</option>
+                  <option value="Seasonal">Seasonal</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -595,8 +574,12 @@
             </div>
             <div class="custom-actions">
               <button class="btn-primary" type="submit">Submit Request →</button>
-              <button class="btn-secondary" type="button" onclick="showPage('home')">
-                ← Back to Home
+              <button
+                class="btn-secondary"
+                type="button"
+                onclick="scrollToSection('featured')"
+              >
+                Browse Collections
               </button>
             </div>
           </form>
@@ -611,20 +594,6 @@
           <div>
             <h2>🧶 Admin Dashboard</h2>
             <p class="admin-welcome" id="adminWelcome">Welcome, Admin</p>
-          </div>
-          <div class="admin-header-actions">
-            <button
-              class="notif-btn admin-notif-btn"
-              onclick="toggleNotifPanel()"
-            >
-              🔔 Notifications
-            </button>
-            <button
-              class="btn-secondary btn-admin-exit"
-              onclick="logoutAdmin()"
-            >
-              ← Exit Dashboard
-            </button>
           </div>
         </div>
 
@@ -719,13 +688,11 @@
               </div>
               <div class="form-group">
                 <label>Category</label>
-                <select id="newCategory">
-                  <option value="wearable">Wearable</option>
-                  <option value="home">Home</option>
-                  <option value="baby">Baby</option>
-                  <option value="accessories">Accessories</option>
-                  <option value="seasonal">Seasonal</option>
-                </select>
+                <select id="newCategory" onchange="fillSubSelect()"></select>
+              </div>
+              <div class="form-group">
+                <label>Subcategory</label>
+                <select id="newSub"></select>
               </div>
             </div>
             <div class="form-group">
@@ -808,7 +775,7 @@
     <footer>
       <div class="footer-inner">
         <div>
-          <div class="footer-brand">🧶 Woolly Wonders</div>
+          <div class="footer-brand" onclick="showPage('home')">🧶 Woolly Wonders</div>
           <p class="footer-desc">
             Handcrafted crochet pieces made with love and the finest yarns. Each
             item is unique, sustainable, and made to last a lifetime.
@@ -817,25 +784,47 @@
         <div class="footer-col">
           <h4>Shop</h4>
           <ul>
-            <li>All Products</li>
-            <li>New Arrivals</li>
-            <li>Bestsellers</li>
+            <li><a onclick="showPage('shop')">All Products</a></li>
+            <li>
+              <a onclick="scrollToSection('new-arrivals')">New Arrivals</a>
+            </li>
+            <li><a onclick="scrollToSection('featured')">Bestsellers</a></li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Info</h4>
           <ul>
-            <li>About Us</li>
-            <li>Care Guide</li>
-            <li>Shipping</li>
+            <li><a onclick="scrollToSection('trust')">About Us</a></li>
+            <li>
+              <a
+                onclick="footerToast('🧼 Care: hand wash cold, dry flat, and store folded')"
+                >Care Guide</a
+              >
+            </li>
+            <li>
+              <a
+                onclick="footerToast('🚚 Free shipping on orders over $75 · delivery in 7–14 days')"
+                >Shipping</a
+              >
+            </li>
           </ul>
         </div>
         <div class="footer-col">
           <h4>Connect</h4>
           <ul>
-            <li>Instagram</li>
-            <li>Pinterest</li>
-            <li>Contact</li>
+            <li>
+              <a href="https://instagram.com" target="_blank" rel="noopener"
+                >Instagram</a
+              >
+            </li>
+            <li>
+              <a href="https://pinterest.com" target="_blank" rel="noopener"
+                >Pinterest</a
+              >
+            </li>
+            <li>
+              <a href="mailto:hello@woollywonders.com">Contact</a>
+            </li>
           </ul>
         </div>
       </div>

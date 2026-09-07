@@ -1,12 +1,12 @@
 const DB = {
   get products() {
     return (
-      JSON.parse(localStorage.getItem("ww_products") || "null") ||
+      JSON.parse(localStorage.getItem("ww_products_v2") || "null") ||
       defaultProducts()
     );
   },
   set products(v) {
-    localStorage.setItem("ww_products", JSON.stringify(v));
+    localStorage.setItem("ww_products_v2", JSON.stringify(v));
   },
   get orders() {
     return JSON.parse(localStorage.getItem("ww_orders") || "[]");
@@ -50,10 +50,19 @@ const DB = {
 let session = JSON.parse(sessionStorage.getItem("ww_session") || "null");
 const ADMIN_CREDS = { email: "admin@woolly.com", password: "admin123" };
 
+const CATEGORIES = {
+  wearable: { label: "Wearables", icon: "\u{1F9E5}", subs: ["Hats & Beanies", "Sweaters & Cardigans", "Gloves & Mittens", "Scarves & Cowls"] },
+  home: { label: "Home & Decor", icon: "\u{1F3E0}", subs: ["Blankets & Throws", "Coasters & Mats", "Plant Hangers", "Wall Art", "Baskets & Storage"] },
+  baby: { label: "Baby & Kids", icon: "\u{1F37C}", subs: ["Hats & Beanies", "Baby Blankets", "Booties & Socks", "Toys & Amigurumi"] },
+  accessories: { label: "Bags & Accessories", icon: "\u{1F45C}", subs: ["Tote & Market Bags", "Crossbody Bags", "Hair Accessories", "Keychains & Charms"] },
+  seasonal: { label: "Seasonal", icon: "\u{1F342}", subs: ["Christmas", "Halloween", "Autumn", "Spring & Summer"] },
+};
+
 // ── STATE ──
 let prevPage = "home";
 let homeFilter = "all";
 let shopFilter = "all";
+let shopSub = "all";
 let currentDetailId = null;
 let detailQty = 1;
 let selectedPayment = "card";
@@ -73,6 +82,7 @@ function defaultProducts() {
       emoji: "🛏️",
       price: 89.99,
       category: "home",
+      sub: "Blankets & Throws",
       desc: "Ultra-soft chunky knit throw blanket made from 100% merino wool in gorgeous earth tones.",
       material: "100% Merino Wool",
       colors: ["#D4856A", "#8FAF8A", "#F2D4C2"],
@@ -87,6 +97,7 @@ function defaultProducts() {
       emoji: "🛍️",
       price: 34.99,
       category: "accessories",
+      sub: "Tote & Market Bags",
       desc: "Stylish sustainable market bag. Stretches to fit all your groceries while looking incredibly chic.",
       material: "Recycled Cotton",
       colors: ["#6B4C3B", "#B5603A", "#D4856A"],
@@ -101,6 +112,7 @@ function defaultProducts() {
       emoji: "🌻",
       price: 22.0,
       category: "home",
+      sub: "Coasters & Mats",
       desc: "Set of 4 hand-crocheted sunflower coasters. Brighten up any table setting.",
       material: "Cotton Yarn",
       colors: ["#EF9F27", "#8FAF8A", "#FAF6EF"],
@@ -115,6 +127,7 @@ function defaultProducts() {
       emoji: "🐻",
       price: 19.99,
       category: "baby",
+      sub: "Hats & Beanies",
       desc: "Adorable bear ear beanie for newborns to 12 months. So soft it won't irritate delicate skin.",
       material: "Organic Baby Yarn",
       colors: ["#F2D4C2", "#8FAF8A", "#D4856A"],
@@ -129,6 +142,7 @@ function defaultProducts() {
       emoji: "🧥",
       price: 129.0,
       category: "wearable",
+      sub: "Sweaters & Cardigans",
       desc: "A modern take on the classic granny square. Relaxed-fit cardigan — the ultimate cozy statement piece.",
       material: "Alpaca & Wool Blend",
       colors: ["#6B4C3B", "#FAF6EF", "#D4856A"],
@@ -143,6 +157,7 @@ function defaultProducts() {
       emoji: "🪴",
       price: 16.5,
       category: "home",
+      sub: "Plant Hangers",
       desc: "Elevate your indoor plants with these boho-style pot holders. Available in multiple sizes.",
       material: "Jute & Cotton",
       colors: ["#8FAF8A", "#6B4C3B", "#D4856A"],
@@ -157,6 +172,7 @@ function defaultProducts() {
       emoji: "🧤",
       price: 27.99,
       category: "wearable",
+      sub: "Gloves & Mittens",
       desc: "Thick warm crochet mittens with lovely cable-like texture. Stylish and functional.",
       material: "Wool & Cashmere",
       colors: ["#B5603A", "#8FAF8A", "#6B4C3B"],
@@ -171,6 +187,7 @@ function defaultProducts() {
       emoji: "👜",
       price: 54.99,
       category: "accessories",
+      sub: "Crossbody Bags",
       desc: "Bohemian fringe bag with full-length shoulder strap. Handmade from high-quality cotton cord.",
       material: "Cotton Cord",
       colors: ["#6B4C3B", "#D4856A", "#8FAF8A"],
@@ -185,6 +202,7 @@ function defaultProducts() {
       emoji: "🎄",
       price: 38.0,
       category: "seasonal",
+      sub: "Christmas",
       desc: "Set of 6 mini crochet Christmas ornaments — trees, stars, snowflakes and more.",
       material: "Mixed Yarns",
       colors: ["#B5603A", "#8FAF8A", "#FAF6EF"],
@@ -199,6 +217,7 @@ function defaultProducts() {
       emoji: "🐰",
       price: 32.0,
       category: "baby",
+      sub: "Toys & Amigurumi",
       desc: "Adorable security blanket and stuffed toy combo. Baby-safe and machine washable.",
       material: "Organic Cotton",
       colors: ["#F2D4C2", "#FAF6EF", "#D4856A"],
@@ -213,6 +232,7 @@ function defaultProducts() {
       emoji: "🎩",
       price: 35.0,
       category: "wearable",
+      sub: "Hats & Beanies",
       desc: "Chic French-inspired crochet beret. Fits most adult head sizes.",
       material: "Merino Wool",
       colors: ["#6B4C3B", "#B5603A", "#8FAF8A"],
@@ -227,6 +247,7 @@ function defaultProducts() {
       emoji: "🌙",
       price: 48.0,
       category: "home",
+      sub: "Wall Art",
       desc: "Handwoven dreamcatcher with crochet detailing. Feathers, beads, and intricate knot work.",
       material: "Cotton & Feathers",
       colors: ["#D4856A", "#FAF6EF", "#8FAF8A"],
@@ -346,7 +367,7 @@ function doAdminLogin() {
     .toLowerCase();
   const pass = document.getElementById("adminPass").value;
   if (email === ADMIN_CREDS.email && pass === ADMIN_CREDS.password) {
-    session = { type: "admin", name: "Admin" };
+    session = { type: "admin", name: "Admin", id: "admin" };
     saveSession();
     closeModal("adminLoginModal");
     updateNavUser();
@@ -383,8 +404,7 @@ function updateNavUser() {
       <button class="btn-nav" onclick="openModal('adminLoginModal')">⚙️ Admin</button>`;
   } else if (session.type === "admin") {
     area.innerHTML = `
-      <button class="user-chip" onclick="showPage('admin')">🔧 Dashboard</button>
-      <button class="btn-nav" onclick="logoutAdmin()">Exit</button>`;
+      <button class="btn-nav" onclick="logoutAdmin()">Logout</button>`;
   } else {
     area.innerHTML = `
       <button class="user-chip" onclick="myOrdersPage()">👤 ${session.name}</button>
@@ -396,9 +416,12 @@ function updateNavUser() {
 
 function updateNavUI() {
   const isCustomer = session && session.type === "customer";
+  const isAdmin = session && session.type === "admin";
   const isUser = session && (session.type === "customer" || session.type === "admin");
   const cartBtn = document.getElementById("cartBtn");
-  if (cartBtn) cartBtn.style.display = isCustomer ? "inline-flex" : "none";
+  if (cartBtn) cartBtn.style.display = isUser ? "inline-flex" : "none";
+  const dash = document.getElementById("dashboardLink");
+  if (dash) dash.style.display = isAdmin ? "" : "none";
   const nBtn = document.getElementById("notifBtn");
   if (nBtn) nBtn.style.display =isUser ? "" : "none";
 }
@@ -551,7 +574,7 @@ function goBack() {
 }
 
 function myOrdersPage() {
-  if (!session || session.type !== "customer") {
+  if (!session) {
     openAuthModal();
     return;
   }
@@ -604,7 +627,7 @@ function productCardHtml(p) {
       <span>${p.emoji}</span>
     </div>
     <div class="product-info">
-      <div class="product-cat">${p.category}</div>
+      <div class="product-cat">${catLabel(p)}</div>
       <div class="stars">${starsHtml(p.rating)} <span>(${p.reviews})</span></div>
       <div class="product-name">${p.name}</div>
       <div class="product-price-row">
@@ -636,6 +659,8 @@ function renderShopGrid() {
   let list = DB.products;
   if (shopFilter !== "all")
     list = list.filter((p) => p.category === shopFilter);
+  if (shopSub !== "all")
+    list = list.filter((p) => p.sub === shopSub);
   if (q)
     list = list.filter(
       (p) =>
@@ -657,11 +682,94 @@ function filterHome(cat, btn) {
 
 function filterShop(cat, btn) {
   shopFilter = cat;
+  shopSub = "all";
+  updateSubFilter();
   document
     .querySelectorAll("#shopFilters .filter-btn")
     .forEach((b) => b.classList.remove("active"));
   btn.classList.add("active");
   renderShopGrid();
+}
+function catLabel(p) {
+  const c = CATEGORIES[p.category];
+  if (!c) return p.category || "";
+  return p.sub ? c.label + " / " + p.sub : c.label;
+}
+function renderFilterButtons(containerId, fn) {
+  const wrap = document.getElementById(containerId);
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  const all = document.createElement("button");
+  all.className = "filter-btn active";
+  all.textContent = "All";
+  all.onclick = function () { window[fn]("all", all); };
+  wrap.appendChild(all);
+  Object.keys(CATEGORIES).forEach((key) => {
+    const b = document.createElement("button");
+    b.className = "filter-btn";
+    b.innerHTML = CATEGORIES[key].icon + " " + CATEGORIES[key].label;
+    b.onclick = function () { window[fn](key, b); };
+    wrap.appendChild(b);
+  });
+}
+function updateSubFilter() {
+  const wrap = document.getElementById("subFilterWrap");
+  const sel = document.getElementById("subFilter");
+  if (!wrap || !sel) return;
+  if (shopFilter === "all" || !CATEGORIES[shopFilter]) {
+    wrap.style.display = "none";
+    shopSub = "all";
+    return;
+  }
+  const c = CATEGORIES[shopFilter];
+  sel.innerHTML = "";
+  const o0 = document.createElement("option");
+  o0.value = "all";
+  o0.textContent = "All " + c.label;
+  sel.appendChild(o0);
+  c.subs.forEach((s) => {
+    const o = document.createElement("option");
+    o.value = s;
+    o.textContent = s;
+    sel.appendChild(o);
+  });
+  wrap.style.display = "flex";
+}
+function setSubFilter(v) {
+  shopSub = v;
+  renderShopGrid();
+}
+function initCategoryUI() {
+  renderFilterButtons("homeFilters", "filterHome");
+  renderFilterButtons("shopFilters", "filterShop");
+  updateSubFilter();
+  const catSel = document.getElementById("newCategory");
+  if (catSel && catSel.options.length === 0) {
+    Object.keys(CATEGORIES).forEach((key) => {
+      const o = document.createElement("option");
+      o.value = key;
+      o.textContent = CATEGORIES[key].label;
+      catSel.appendChild(o);
+    });
+    fillSubSelect();
+  }
+}
+function fillSubSelect() {
+  const catSel = document.getElementById("newCategory");
+  const subSel = document.getElementById("newSub");
+  if (!catSel || !subSel) return;
+  const c = CATEGORIES[catSel.value];
+  subSel.innerHTML = "";
+  if (!c) return;
+  c.subs.forEach((s) => {
+    const o = document.createElement("option");
+    o.value = s;
+    o.textContent = s;
+    subSel.appendChild(o);
+  });
+}
+function footerToast(msg) {
+  toast(msg);
 }
 
 // ═══════════════════════════════════
@@ -756,7 +864,7 @@ function selectColor(dot) {
 // CART
 // ═══════════════════════════════════
 function addToCart(id, showToast = true) {
-  if (!session || session.type !== "customer") {
+  if (!session) {
     toast("Please sign in to add items to your basket.");
     openAuthModal();
     return false;
@@ -856,7 +964,7 @@ function toggleCart() {
 }
 
 function goCheckout() {
-  if (!session || session.type !== "customer") {
+  if (!session) {
     toggleCart();
     openAuthModal();
     return;
@@ -949,7 +1057,7 @@ function showCheckoutError(msg) {
 // PLACE ORDER
 // ═══════════════════════════════════
 function placeOrder() {
-  if (!session || session.type !== "customer") { openAuthModal(); return; }
+  if (!session) { openAuthModal(); return; }
   if (DB.cart.length === 0) {
     showCheckoutError("Your cart is empty!");
     return;
@@ -1226,6 +1334,8 @@ function renderAdmin() {
           </tr>`;
           })
           .join("");
+
+  renderCustomTable();
 }
 
 function renderCustomTable() {
@@ -1342,6 +1452,7 @@ function addProduct() {
   const material =
     document.getElementById("newMaterial").value.trim() || "Handcrafted Yarn";
   const stock = parseInt(document.getElementById("newStock").value) || 20;
+  const sub = document.getElementById("newSub") ? document.getElementById("newSub").value : "";
 
   if (!name || isNaN(price)) {
     toast("⚠️ Please enter a name and price.");
@@ -1356,6 +1467,7 @@ function addProduct() {
     emoji,
     price,
     category,
+    sub,
     desc: desc || "A beautiful handcrafted piece.",
     material,
     colors: colors.length ? colors : ["#D4856A", "#8FAF8A"],
@@ -1481,6 +1593,7 @@ function today() {
 }
 
 updateNavUser();
+initCategoryUI();
 renderHomeGrids();
 updateCartBadge();
 setupReveal();
