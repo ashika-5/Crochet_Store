@@ -585,6 +585,7 @@ function showPage(name) {
   if (name === "home") renderHomeGrids();
   if (name === "shop") renderShopGrid();
   if (name === "checkout") renderCheckoutSummary();
+  if (name === "about") {}
   if (name === "admin") {
     if (!session || session.type !== "admin") {
       openAuthModal();

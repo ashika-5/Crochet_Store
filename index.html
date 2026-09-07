@@ -277,6 +277,122 @@
       </section>
     </div>
 
+    <!-- ══════════════════════ ABOUT US PAGE ══════════════════════ -->
+    <div class="page" id="page-about">
+      <div class="about-page">
+        <div class="about-hero">
+          <div class="about-hero-inner">
+            <div class="about-eyebrow">
+              <span class="about-eyebrow-line"></span>
+              <span>Our Story</span>
+              <span class="about-eyebrow-line"></span>
+            </div>
+            <h1>About Woolly Wonders</h1>
+            <p>Handmade with love, stitch by stitch — discover the passion behind every piece.</p>
+          </div>
+        </div>
+
+        <div class="about-content">
+          <div class="about-section">
+            <div class="about-section-icon">🌱</div>
+            <h2>How It Was Established</h2>
+            <p>
+              Woolly Wonders began in 2023 as a small home-based crochet project in Kathmandu, Nepal.
+              What started as a hobby — making beanies and blankets for family and friends — quickly
+              grew into something much bigger. Word spread about the quality and love put into every
+              piece, and soon orders were coming in from all over the country.
+            </p>
+            <p>
+              By early 2024, Woolly Wonders had officially launched as an online store, bringing
+              handcrafted crochet products to customers who appreciate the artistry and care that
+              goes into each item. Today, we serve thousands of happy customers across Nepal and beyond.
+            </p>
+          </div>
+
+          <div class="about-section">
+            <div class="about-section-icon">💡</div>
+            <h2>Why It Was Made</h2>
+            <p>
+              Woolly Wonders was born from a simple belief: that handmade things carry a special kind
+              of magic. In a world of mass-produced goods, we wanted to create something different —
+              products made with intention, care, and a personal touch that machines simply cannot replicate.
+            </p>
+            <p>
+              Every crochet piece takes hours of focused work. Each stitch is placed by hand, each
+              colour chosen with care. We built this store to celebrate the craft of crochet and to
+              connect people with beautiful, sustainable, one-of-a-kind items that bring warmth and
+              joy into their lives.
+            </p>
+          </div>
+
+          <div class="about-section">
+            <div class="about-section-icon">👩‍💻</div>
+            <h2>Who Made This App</h2>
+            <div class="about-creator">
+              <div class="creator-avatar">🧶</div>
+              <div class="creator-info">
+                <h3>Ashika Rana Magar</h3>
+                <p class="creator-role">Founder & Developer</p>
+                <p>
+                  Ashika Rana Magar is the founder and sole developer behind Woolly Wonders.
+                  A passionate crochet artist and self-taught web developer, she designed and
+                  built this entire store — from the product photography and descriptions to
+                  the website code and user experience.
+                </p>
+                <p>
+                  Her vision was to create a seamless online shopping experience that reflects
+                  the warmth and care of handmade crochet. Every detail of this app — the colours,
+                  the animations, the checkout flow — was carefully crafted by Ashika to make
+                  shopping for handmade goods feel personal and delightful.
+                </p>
+                <div class="creator-links">
+                  <span>📍 Kathmandu, Nepal</span>
+                  <span>🧶 Crochet Artist</span>
+                  <span>💻 Web Developer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-section about-values">
+            <div class="about-section-icon">✨</div>
+            <h2>Our Values</h2>
+            <div class="values-grid">
+              <div class="value-card">
+                <div class="value-icon">🤲</div>
+                <h4>Handmade with Care</h4>
+                <p>Every piece is stitched by hand — no machines, no shortcuts.</p>
+              </div>
+              <div class="value-card">
+                <div class="value-icon">🌿</div>
+                <h4>Sustainable Materials</h4>
+                <p>We use natural, eco-friendly yarns that are kind to the planet.</p>
+              </div>
+              <div class="value-card">
+                <div class="value-icon">💛</div>
+                <h4>Made with Love</h4>
+                <p>Each item carries the warmth and intention of its maker.</p>
+              </div>
+              <div class="value-card">
+                <div class="value-icon">🎨</div>
+                <h4>Unique Designs</h4>
+                <p>No two pieces are exactly alike — your item is one of a kind.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-cta">
+            <h2>Ready to Explore?</h2>
+            <p>Discover our handcrafted collection and find something made just for you.</p>
+            <div class="about-cta-btns">
+              <button class="btn-primary" onclick="showPage('shop')">Shop Collection →</button>
+              <button class="btn-secondary" onclick="openCustomOrder()">Request Custom Order</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ══════════════════════ SHOP PAGE ══════════════════════ -->
     <div class="page" id="page-shop">
       <section class="section">
@@ -793,7 +909,7 @@
         <div class="footer-col">
           <h4>Info</h4>
           <ul>
-            <li><a onclick="scrollToSection('trust')">About Us</a></li>
+            <li><a onclick="showPage('about')">About Us</a></li>
             <li>
               <a
                 onclick="footerToast('🧼 Care: hand wash cold, dry flat, and store folded')"
