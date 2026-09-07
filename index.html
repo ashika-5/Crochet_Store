@@ -157,13 +157,29 @@
     <div class="page active" id="page-home">
       <!-- HERO -->
       <section class="hero">
-        <div class="hero-content">
-          <div class="hero-badge">🌿 100% Handcrafted with Love</div>
+        <video
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+          aria-hidden="true"
+        >
+          <source src="bgvideo/Untitled%20video.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <div class="hero-eyebrow">
+            <span class="hero-eyebrow-line"></span>
+            <span>100% Handcrafted With Love</span>
+            <span class="hero-eyebrow-line"></span>
+          </div>
           <h1>Where Yarn Becomes <em>Art</em></h1>
           <p>
             Every stitch tells a story. Discover our collection of handmade
-            crochet pieces — from cozy home décor to wearable wonders, each one
-            lovingly crafted by artisans.
+            crochet pieces — from cozy home décor to wearable wonders, each
+            one lovingly crafted by artisans.
           </p>
           <div class="hero-btns">
             <button class="btn-primary" onclick="showPage('shop')">
@@ -173,27 +189,51 @@
               View Lookbook
             </button>
           </div>
-          <div class="hero-stats">
-            <div class="stat">
-              <strong>500+</strong>
-              <span>Products</span>
-            </div>
-            <div class="stat">
-              <strong>12k+</strong>
-              <span>Happy Crafters</span>
-            </div>
-            <div class="stat">
-              <strong>4.9★</strong>
-              <span>Avg Rating</span>
-            </div>
-          </div>
         </div>
-        <div class="hero-visual">
-          <div class="hero-circle">🧶</div>
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>500+</strong>
+            <span>Products</span>
+          </div>
+          <div class="stat">
+            <strong>12k+</strong>
+            <span>Happy Crafters</span>
+          </div>
+          <div class="stat">
+            <strong>4.9★</strong>
+            <span>Avg Rating</span>
+          </div>
+          <div class="stat">
+            <strong>100%</strong>
+            <span>Handcrafted</span>
+          </div>
         </div>
       </section>
 
-      a;lfja a;jfc a;jf aljfav[ ]
+      <!-- TRUST BAR -->
+      <div class="trust-bar reveal">
+        <div class="trust-item">
+          <span class="trust-icon">🧶</span>
+          <div class="trust-text">
+            <h4>Handcrafted with Love</h4>
+            <p>Every piece stitched by hand</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">🧵</span>
+          <div class="trust-text">
+            <h4>Premium Yarn</h4>
+            <p>Finest natural fibres only</p>
+          </div>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon">🚚</span>
+          <div class="trust-text">
+            <h4>Fast Dispatch</h4>
+            <p>Ships within 24 hours</p>
+          </div>
+        </div>
+      </div>
 
       <!-- BESTSELLERS -->
       <section class="section reveal" id="featured">
