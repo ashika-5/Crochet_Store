@@ -135,7 +135,7 @@
           <span class="notif-dot" id="notifDot"></span>
         </button>
         <div id="navUserArea"></div>
-        <button class="btn-cart" onclick="toggleCart()">
+        <button class="btn-cart" onclick="toggleCart()" id="cartBtn" style="display:none">
           🛒 Cart
           <span class="cart-count" id="cartCount">0</span>
         </button>
@@ -277,7 +277,7 @@
             Want something truly unique? We create custom crochet pieces
             tailored to your colours, size, and style.
           </p>
-          <button class="btn-white">Request Custom Order</button>
+          <button class="btn-white" onclick="openCustomOrder()">Request Custom Order</button>
         </div>
         <div class="featured-banner-emoji">✂️</div>
       </div>
@@ -535,6 +535,75 @@
       </div>
     </div>
 
+    <!-- ══════════════════════ CUSTOM ORDER PAGE ══════════════════════ -->
+    <div class="page" id="page-custom">
+      <div class="custom-order-page">
+        <div class="custom-head">
+          <h2>Custom Order Request</h2>
+          <p>Tell us your vision — we'll crochet it just for you</p>
+        </div>
+        <div class="custom-order-card">
+          <form id="customOrderForm" onsubmit="submitCustomOrder(); return false;">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="coName" placeholder="Jane Doe" />
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="coEmail" placeholder="jane@example.com" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Item Type</label>
+                <select id="coType">
+                  <option value="Wearable">Wearable</option>
+                  <option value="Home Decor">Home Decor</option>
+                  <option value="Baby Items">Baby Items</option>
+                  <option value="Accessories">Accessories</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Budget Range</label>
+                <select id="coBudget">
+                  <option value="$20 – $50">$20 – $50</option>
+                  <option value="$50 – $100">$50 – $100</option>
+                  <option value="$100 – $200">$100 – $200</option>
+                  <option value="$200+">$200+</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Describe Your Vision</label>
+              <textarea
+                id="coDesc"
+                rows="5"
+                placeholder="Colours, size, style, yarn preference..."
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label>Reference Image (optional)</label>
+              <input
+                type="file"
+                id="coImage"
+                accept="image/*"
+                onchange="previewCustomImage(this)"
+              />
+              <div class="custom-img-preview" id="coImagePreview"></div>
+            </div>
+            <div class="custom-actions">
+              <button class="btn-primary" type="submit">Submit Request →</button>
+              <button class="btn-secondary" type="button" onclick="showPage('home')">
+                ← Back to Home
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!-- ══════════════════════ ADMIN DASHBOARD ══════════════════════ -->
     <div class="page" id="page-admin">
       <div class="admin-page">
@@ -568,6 +637,9 @@
           <button class="tab-btn" onclick="adminTab('products', this)">
             🧶 Products
           </button>
+          <button class="tab-btn" onclick="adminTab('custom', this)">
+            🎨 Custom
+          </button>
           <button class="tab-btn" onclick="adminTab('addProduct', this)">
             ➕ Add Product
           </button>
@@ -578,38 +650,42 @@
 
         <!-- ORDERS TABLE -->
         <div id="adminOrders" class="admin-panel">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Order ID</th>
-                <th>Customer</th>
-                <th>Items</th>
-                <th>Total</th>
-                <th>Payment</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="ordersTable"></tbody>
-          </table>
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Payment</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTable"></tbody>
+            </table>
+          </div>
         </div>
 
         <!-- PRODUCTS TABLE -->
         <div id="adminProducts" class="admin-panel hidden">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Icon</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody id="productsTable"></tbody>
-          </table>
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Icon</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="productsTable"></tbody>
+            </table>
+          </div>
         </div>
 
         <!-- ADD PRODUCT -->
@@ -688,20 +764,42 @@
           </div>
         </div>
 
+        <!-- CUSTOM ORDERS TABLE -->
+        <div id="adminCustom" class="admin-panel hidden">
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Type</th>
+                  <th>Budget</th>
+                  <th>Details</th>
+                  <th>Image</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="customTable"></tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- CUSTOMERS TABLE -->
         <div id="adminCustomers" class="admin-panel hidden">
-          <table class="admin-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Orders</th>
-                <th>Total Spent</th>
-                <th>Joined</th>
-              </tr>
-            </thead>
-            <tbody id="customersTable"></tbody>
-          </table>
+          <div class="table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Orders</th>
+                  <th>Total Spent</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody id="customersTable"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -721,7 +819,6 @@
           <ul>
             <li>All Products</li>
             <li>New Arrivals</li>
-            git
             <li>Bestsellers</li>
           </ul>
         </div>

@@ -38,6 +38,12 @@ const DB = {
   set adminNotifs(v) {
     localStorage.setItem("ww_anotifs", JSON.stringify(v));
   },
+  get customOrders() {
+    return JSON.parse(localStorage.getItem("ww_customorders") || "[]");
+  },
+  set customOrders(v) {
+    localStorage.setItem("ww_customorders", JSON.stringify(v));
+  },
 };
 
 // ── SESSION ──
@@ -385,6 +391,16 @@ function updateNavUser() {
       <button class="btn-nav" onclick="logout()">Sign Out</button>`;
   }
   renderNotifDot();
+  updateNavUI();
+}
+
+function updateNavUI() {
+  const isCustomer = session && session.type === "customer";
+  const isUser = session && (session.type === "customer" || session.type === "admin");
+  const cartBtn = document.getElementById("cartBtn");
+  if (cartBtn) cartBtn.style.display = isCustomer ? "inline-flex" : "none";
+  const nBtn = document.getElementById("notifBtn");
+  if (nBtn) nBtn.style.display =isUser ? "" : "none";
 }
 
 // ═══════════════════════════════════
@@ -720,9 +736,12 @@ function changeDetailQty(d) {
 }
 
 function addToCartFromDetail() {
-  for (let i = 0; i < detailQty; i++) addToCart(currentDetailId, false);
   const p = DB.products.find((x) => x.id === currentDetailId);
-  toast(p.emoji + " Added " + detailQty + "× " + p.name + "!");
+  if (!p) return;
+  const ok = addToCart(currentDetailId, false);
+  if (!ok) return;
+  for (let i=1;i<detailQty;i++) addToCart(currentDetailId, false);
+  toast(p.emoji + " Added " + detailQty + "x " + p.name + "!");
 }
 
 function selectColor(dot) {
@@ -738,10 +757,12 @@ function selectColor(dot) {
 // ═══════════════════════════════════
 function addToCart(id, showToast = true) {
   if (!session || session.type !== "customer") {
+    toast("Please sign in to add items to your basket.");
     openAuthModal();
-    return;
+    return false;
   }
   const p = DB.products.find((x) => x.id === id);
+  if (!p) return false;
   const cart = DB.cart;
   const ex = cart.find((i) => i.id === id);
   if (ex) ex.qty++;
@@ -750,6 +771,7 @@ function addToCart(id, showToast = true) {
   updateCartBadge();
   if (showToast) toast(p.emoji + " Added to basket!");
   renderCart();
+  return true;
 }
 
 function removeFromCart(id) {
@@ -927,6 +949,7 @@ function showCheckoutError(msg) {
 // PLACE ORDER
 // ═══════════════════════════════════
 function placeOrder() {
+  if (!session || session.type !== "customer") { openAuthModal(); return; }
   if (DB.cart.length === 0) {
     showCheckoutError("Your cart is empty!");
     return;
@@ -1048,11 +1071,6 @@ function renderCheckoutSummary() {
     })
     .join("");
 
-  ehafqag;
-  ajfpqg;
-  qljfpqgw;
-  qlkfhqpo;
-
   document.getElementById("checkoutSummary").innerHTML = `
     <h3>Order Summary</h3>
     ${items}
@@ -1104,16 +1122,6 @@ function renderMyOrders() {
     </div>`,
     )
     .join("");
-}
-
-function statusLabel(s) {
-  const map = {
-    pending: "⏳ Pending",
-    confirmed: "✅ Confirmed",
-    shipped: "🚚 Shipped",
-    delivered: "📬 Delivered",
-  };
-  return map[s] || s;
 }
 
 function statusLabel(s) {
@@ -1199,21 +1207,6 @@ function renderAdmin() {
     )
     .join("");
 
-  // Products
-  document.getElementById("productsTable").innerHTML = DB.products
-    .map(
-      (p) => `
-    <tr>
-      <td class="product-emoji">${p.emoji}</td>
-      <td><strong>${p.name}</strong></td>
-      <td>${p.category}</td>
-      <td>$${p.price.toFixed(2)}</td>
-      <td>${p.stock}</td>
-      <td><button class="btn-danger" onclick="deleteProduct(${p.id})">Delete</button></td>
-    </tr>`,
-    )
-    .join("");
-
   // Customers
   const users = DB.users;
   document.getElementById("customersTable").innerHTML =
@@ -1235,6 +1228,46 @@ function renderAdmin() {
           .join("");
 }
 
+function renderCustomTable() {
+  const orders = DB.customOrders;
+  const el = document.getElementById("customTable");
+  if (!el) return;
+  el.innerHTML="";
+  if (orders.length === 0) {
+    const tr=document.createElement("tr");
+    const td=document.createElement("td");
+    td.colSpan=7;
+    td.className="table-empty";
+    td.textContent="No custom requests yet";
+    tr.appendChild(td);
+    el.appendChild(tr);
+    return;
+  }
+  orders.forEach((o)=>{
+    const tr=document.createElement("tr");
+    const cells=[["name",o.name],["email",o.email],["type",o.type],["budget",o.budget],["desc",o.desc]];
+    cells.forEach((c)=>{
+      const td=document.createElement("td");
+      if (c[0]==="desc" || c[0]==="name") {
+        const b=document.createElement("strong");b.textContent=c[1];td.appendChild(b);
+      } else td.textContent=c[1];
+      tr.appendChild(td);
+    });
+    const tdImg=document.createElement("td");
+    if (o.image) {
+      const im=document.createElement("img");im.className="custom-thumb";im.src=o.image;im.alt="Reference";tdImg.appendChild(im);
+    } else tdImg.textContent="-";
+    tr.appendChild(tdImg);
+    const tdAct=document.createElement("td");
+    const btn=document.createElement("button");
+    btn.className="btn-danger";
+    btn.textContent="Delete";
+    btn.onclick=function(){deleteCustomOrder(o.id);};
+    tdAct.appendChild(btn);
+    tr.appendChild(tdAct);
+    el.appendChild(tr);
+});
+}
 function adminTab(tab, btn) {
   document
     .querySelectorAll(".tab-btn")
@@ -1245,6 +1278,7 @@ function adminTab(tab, btn) {
     products: "adminProducts",
     addProduct: "adminAddProduct",
     customers: "adminCustomers",
+    custom: "adminCustom",
   };
   Object.values(map).forEach((id) =>
     document.getElementById(id).classList.add("hidden"),
@@ -1346,6 +1380,78 @@ function addProduct() {
   renderAdmin();
 }
 
+let customImageData=null;
+function openCustomOrder() {
+  if (!session || session.type !== "customer") {
+    toast("Please sign in to request a custom order.");
+    openAuthModal();
+    return;
+  }
+  showPage("custom");
+  document.getElementById("coName").value = session.name || "";
+  document.getElementById("coEmail").value = session.email || "";
+  document.getElementById("coDesc").value = "";
+  document.getElementById("coImage").value = "";
+  var box0=document.getElementById("coImagePreview");box0.innerHTML="";
+  customImageData = null;
+}
+function previewCustomImage(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  if (file.type.indexOf("image/") !== 0) {
+    toast("Please choose an image file.");
+    input.value = "";
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    customImageData = e.target.result;
+    const box=document.getElementById("coImagePreview");
+    box.innerHTML="";
+    const im=document.createElement("img");
+    im.src=customImageData;
+    im.alt="Reference preview";
+    box.appendChild(im);
+  };
+  reader.readAsDataURL(file);
+}
+function submitCustomOrder() {
+  if (!session || session.type !== "customer") { openAuthModal(); return; }
+  const name = document.getElementById("coName").value.trim();
+  const email = document.getElementById("coEmail").value.trim();
+  const type = document.getElementById("coType").value;
+  const budget = document.getElementById("coBudget").value;
+  const desc = document.getElementById("coDesc").value.trim();
+  if (!name || !email || !desc) {
+    toast("Please fill in your name, email,and description.");
+    return;
+  }
+  const orders = DB.customOrders;
+  orders.unshift({
+    id: "CO-" + Date.now(),
+    customerId: session.id,
+    name,
+    email,
+    type,
+    budget,
+    desc,
+    image: customImageData || null,
+    date: today(),
+  });
+  DB.customOrders = orders;
+  addAdminNotif("New Custom Order Request", name + " requested a custom " + type + " (" + budget + ").");
+  const box=document.getElementById("coImagePreview");box.innerHTML="";
+  document.getElementById("coImage").value = "";
+  customImageData = null;
+  toast("Request sent! We will get back to you shortly.");
+  showPage("home");
+}
+function deleteCustomOrder(id) {
+  if (!confirm("Delete this custom order request?")) return;
+  DB.customOrders = DB.customOrders.filter(o=>o.id!==id);
+  renderAdmin();
+  toast("Request deleted.");
+}
 function toast(msg) {
   const wrap = document.getElementById("toastWrap");
   const t = document.createElement("div");
