@@ -49,6 +49,9 @@
           <button class="btn-primary btn-full" onclick="doLogin()">
             Sign In →
           </button>
+          <p class="admin-demo-hint">
+            Business owner demo: admin@woolly.com / admin123
+          </p>
         </div>
         <!-- REGISTER -->
         <div id="registerForm" class="hidden">
@@ -60,6 +63,29 @@
             <div class="form-group">
               <label>Last Name</label>
               <input type="text" id="regLast" placeholder="Doe" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Account Type</label>
+            <div class="role-picker">
+              <div
+                class="role-option selected"
+                id="roleCustomer"
+                onclick="setRegisterRole('customer')"
+              >
+                <div class="role-icon">👤</div>
+                <div class="role-label">Customer</div>
+                <div class="role-sub">Shop &amp; order</div>
+              </div>
+              <div
+                class="role-option"
+                id="roleBusiness"
+                onclick="setRegisterRole('business')"
+              >
+                <div class="role-icon">🏪</div>
+                <div class="role-label">Business Owner</div>
+                <div class="role-sub">Manage the store</div>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -78,33 +104,6 @@
             Create Account →
           </button>
         </div>
-      </div>
-    </div>
-
-    <!-- ADMIN LOGIN MODAL -->
-    <div class="modal-overlay" id="adminLoginModal">
-      <div class="modal">
-        <button class="modal-close" onclick="closeModal('adminLoginModal')">
-          ✕
-        </button>
-        <div class="modal-admin-icon">
-          <div class="icon">🔐</div>
-          <h3>Admin Access</h3>
-          <p class="modal-sub">Enter admin credentials to continue</p>
-        </div>
-        <div id="adminLoginError" class="error-msg"></div>
-        <div class="form-group">
-          <label>Admin Email</label>
-          <input type="email" id="adminEmail" placeholder="admin@woolly.com" />
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="adminPass" placeholder="••••••••" />
-        </div>
-        <button class="btn-primary btn-full" onclick="doAdminLogin()">
-          Access Dashboard →
-        </button>
-        <p class="admin-demo-hint">Demo: admin@woolly.com / admin123</p>
       </div>
     </div>
 

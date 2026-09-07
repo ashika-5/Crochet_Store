@@ -296,9 +296,30 @@ function doLogin() {
     .value.trim()
     .toLowerCase();
   const pass = document.getElementById("loginPass").value;
+  if (email === ADMIN_CREDS.email && pass === ADMIN_CREDS.password) {
+    session = { type: "admin", name: "Admin", id: "admin", email };
+    saveSession();
+    closeModal("authModal");
+    updateNavUser();
+    toast("👋 Welcome back, Admin!");
+    return;
+  }
   const user = DB.users.find((u) => u.email === email && u.password === pass);
   if (!user) {
     showAuthError("Invalid email or password.");
+    return;
+  }
+  if (user.role === "business") {
+    session = {
+      type: "admin",
+      name: user.firstName,
+      id: user.id,
+      email: user.email,
+    };
+    saveSession();
+    closeModal("authModal");
+    updateNavUser();
+    toast("🏪 Welcome back, " + user.firstName + "!");
     return;
   }
   session = {
@@ -312,7 +333,6 @@ function doLogin() {
   updateNavUser();
   toast("👋 Welcome back, " + user.firstName + "!");
 }
-
 function doRegister() {
   const first = document.getElementById("regFirst").value.trim();
   const last = document.getElementById("regLast").value.trim();
@@ -338,9 +358,23 @@ function doRegister() {
     lastName: last,
     email,
     password: pass,
+    role: registerRole,
     joinedAt: today(),
   });
   DB.users = users;
+  if (registerRole === "business") {
+    session = {
+      type: "admin",
+      name: first,
+      id,
+      email,
+    };
+    saveSession();
+    closeModal("authModal");
+    updateNavUser();
+    toast("🏪 Business account created! Welcome, " + first + "!");
+    return;
+  }
   session = { type: "customer", id, name: first, email };
   saveSession();
   addCustomerNotif(
@@ -353,31 +387,23 @@ function doRegister() {
   updateNavUser();
   toast("✨ Account created! Welcome, " + first + "!");
 }
-
+let registerRole = "customer";
+function setRegisterRole(role) {
+  registerRole = role;
+  const c = document.getElementById("roleCustomer");
+  const b = document.getElementById("roleBusiness");
+  if (c) c.classList.toggle("selected", role === "customer");
+  if (b) b.classList.toggle("selected", role === "business");
+}
+function getRegisterRole() {
+  return registerRole;
+}
 function showAuthError(msg) {
   const el = document.getElementById("authError");
   el.textContent = msg;
   el.classList.add("show");
 }
 
-function doAdminLogin() {
-  const email = document
-    .getElementById("adminEmail")
-    .value.trim()
-    .toLowerCase();
-  const pass = document.getElementById("adminPass").value;
-  if (email === ADMIN_CREDS.email && pass === ADMIN_CREDS.password) {
-    session = { type: "admin", name: "Admin", id: "admin" };
-    saveSession();
-    closeModal("adminLoginModal");
-    updateNavUser();
-    showPage("admin");
-  } else {
-    const el = document.getElementById("adminLoginError");
-    el.textContent = "Invalid admin credentials.";
-    el.classList.add("show");
-  }
-}
 
 function logout() {
   session = null;
@@ -400,8 +426,7 @@ function updateNavUser() {
   const area = document.getElementById("navUserArea");
   if (!session) {
     area.innerHTML = `
-      <button class="btn-nav" onclick="openAuthModal()">Sign In</button>
-      <button class="btn-nav" onclick="openModal('adminLoginModal')">⚙️ Admin</button>`;
+      <button class="btn-nav" onclick="openAuthModal()">Sign In</button>`;
   } else if (session.type === "admin") {
     area.innerHTML = `
       <button class="btn-nav" onclick="logoutAdmin()">Logout</button>`;
@@ -562,7 +587,7 @@ function showPage(name) {
   if (name === "checkout") renderCheckoutSummary();
   if (name === "admin") {
     if (!session || session.type !== "admin") {
-      openModal("adminLoginModal");
+      openAuthModal();
       return;
     }
     renderAdmin();
@@ -1248,6 +1273,9 @@ function statusLabel(s) {
 function renderAdmin() {
   const orders = DB.orders;
   const revenue = orders.reduce((s, o) => s + o.total, 0);
+  const payingCustomers = new Set(
+    orders.map((o) => o.customerId).filter(Boolean)
+  ).size;
 
   document.getElementById("adminWelcome").textContent =
     "Welcome back, " + (session?.name || "Admin");
@@ -1270,7 +1298,7 @@ function renderAdmin() {
     </div>
     <div class="admin-stat-card">
       <div class="admin-stat-icon">👥</div>
-      <div class="admin-stat-val">${DB.users.length}</div>
+      <div class="admin-stat-val">${payingCustomers}</div>
       <div class="admin-stat-label">Customers</div>
     </div>`;
 
@@ -1315,8 +1343,8 @@ function renderAdmin() {
     )
     .join("");
 
-  // Customers
-  const users = DB.users;
+  // Customers (customer-role accounts only)
+  const users = DB.users.filter((u) => (u.role || "customer") === "customer");
   document.getElementById("customersTable").innerHTML =
     users.length === 0
       ? `<tr><td colspan="5" class="table-empty">No customers yet</td></tr>`
