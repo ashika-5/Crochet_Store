@@ -1084,9 +1084,6 @@ function showCheckoutError(msg) {
   el.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-// ═══════════════════════════════════
-// PLACE ORDER
-// ═══════════════════════════════════
 function placeOrder() {
   if (!session) { openAuthModal(); return; }
   if (DB.cart.length === 0) {
@@ -1194,9 +1191,7 @@ function placeOrder() {
   showPage("success");
 }
 
-// ═══════════════════════════════════
-// CHECKOUT SUMMARY
-// ═══════════════════════════════════
+
 function renderCheckoutSummary() {
   const sub = cartTotal();
   const ship = sub >= 75 ? 0 : 8.99;
@@ -1221,9 +1216,6 @@ function renderCheckoutSummary() {
     <p class="summary-craft-note">🧶 Each item is handcrafted. Allow 3–5 days for crafting before shipping.</p>`;
 }
 
-// ═══════════════════════════════════
-// MY ORDERS
-// ═══════════════════════════════════
 function renderMyOrders() {
   const myOrders = DB.orders.filter((o) => o.customerId === session.id);
   const el = document.getElementById("myOrdersList");
