@@ -1265,9 +1265,7 @@ function statusLabel(s) {
   return map[s] || s;
 }
 
-// ═══════════════════════════════════
-// ADMIN DASHBOARD
-// ═══════════════════════════════════
+
 function renderAdmin() {
   const orders = DB.orders;
   const revenue = orders.reduce((s, o) => s + o.total, 0);
